@@ -25,3 +25,21 @@ body {
 .p-menuitem-link {
   cursor: pointer !important;
 }
+
+
+.main-color{
+  color:  #00aff0;
+}
+
+.second-color {
+  color: #1fc9d0;
+}
+
+.main-background-color{
+  background-color: #90E3FF;
+}
+
+hr{
+  border-color: #f5f5f5;
+  margin: 10px 0;
+}

@@ -26,3 +26,19 @@
     }
   }
 }
+
+label {
+  font-weight: 500;
+}
+::ng-deep {
+  .p-inputnumber{
+    width: 100%;
+  }
+
+  .p-card {
+    width: 100%;
+  }
+}
+p-inputnumber{
+  width: 100%;
+}

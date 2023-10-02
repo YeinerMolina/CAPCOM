@@ -1,14 +1,14 @@
 import { Route } from '@angular/router';
 
-import { HomeModule } from './home/home.module';
+import { MainModule } from './main/main.module';
 
 export const routes: Route[] = [
   {
-    path: 'home',
-    loadChildren: () => HomeModule,
+    path: '',
+    loadChildren: () => MainModule,
   },
   {
     path: '**',
-    redirectTo: 'home',
+    redirectTo: '',
   },
 ];

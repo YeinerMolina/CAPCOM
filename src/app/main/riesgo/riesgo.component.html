@@ -1,0 +1,328 @@
+<div class="container">
+  <div class="contenedor__banner">
+    <div class="details">
+      <h2>DETERMINACIÓN DEL NIVEL DE RIESGO</h2>
+    </div>
+  </div>
+
+  <p-card>
+    <p-steps
+      [model]="configService.items"
+      [readonly]="false"
+      [activeIndex]="activeIndex"
+      (activeIndexChange)="onActiveIndexChange($event)"
+    ></p-steps>
+  </p-card>
+
+  <ng-container *ngIf="activeIndex === 0">
+    <div class="grid">
+      <div class="col-3">
+        <p-card class="flex" header="Dimensiones de la estructura">
+          <div class="p-fluid grid">
+            <div class="field col-6">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Altura</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+            <div class="field col-6">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Longitud</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+            <div class="field col-6">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Ancho</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+            <div class="field col-6">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Área de recolección</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+      <div class="col-9">
+        <p-card
+          class="flex"
+          header="Carácteriticas de la acometida de servicio"
+        >
+          <div class="p-fluid grid py-1 flex flex-row align-items-center">
+            <div class="field col-3">
+              <span class="p-float-label">
+                <p-dropdown
+                  class="w-full"
+                  [style]="{ minWidth: '100%' }"
+                  placeholder="Tipo de acometida"
+                  [options]="configService.tipoAcometida"
+                  optionLabel="name"
+                  optionValue="value"
+                ></p-dropdown>
+                <label> Tipo de acometida </label>
+              </span>
+            </div>
+            <div class="field col-2">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Longitud</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+
+            <div class="field col-4">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Altura del punto de ingreso de la acometida</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+
+            <div class="field col-3">
+              <span class="p-float-label">
+                <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                <label>Número de acometidas de potencia</label>
+              </span>
+            </div>
+          </div>
+          <div class="grid py-1 flex flex-row align-items-center">
+            <div class="col-2">
+              <div class="flex flex-row align-items-center h-full">
+                <label class="flex align-items-start w-8" for="aislamiento"
+                  >Aislamiento del nivel exterior</label
+                >
+                <p-checkbox
+                  class="flex pl-5 w-1"
+                  inputId="aislamiento"
+                  [binary]="true"
+                ></p-checkbox>
+              </div>
+            </div>
+            <div class="field col-3">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Altura de la acometida de servicio</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+
+            <div class="field col-3">
+              <div class="p-inputgroup">
+                <div class="p-float-label">
+                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                  <label>Altura de la acometida externa</label>
+                </div>
+                <span class="p-inputgroup-addon">m</span>
+              </div>
+            </div>
+
+            <div class="field col-4">
+              <div class="p-float-label">
+                <p-inputNumber [useGrouping]="false"></p-inputNumber>
+                <label>Número de acometidas de telecomunicaciones</label>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+    <div class="grid">
+      <p-card class="col-3" header="Carácteristicas resistivas">
+        <div class="grid flex w-full">
+          <div class="col-6">
+            <div class="flex-auto">
+              <label>Resistividad del terreno</label>
+              <div class="p-inputgroup">
+                <p-inputNumber
+                  placeholder="Resistividad del terreno"
+                  [useGrouping]="false"
+                ></p-inputNumber>
+                <span class="p-inputgroup-addon">&Omega;</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="flex-auto">
+              <label>Resistividad de pantalla</label>
+              <div class="p-inputgroup">
+                <p-inputNumber
+                  placeholder="Resistividad de pantalla"
+                  [useGrouping]="false"
+                ></p-inputNumber>
+                <span class="p-inputgroup-addon">&Omega;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-card>
+
+      <p-card class="col-6" header="Localización de la estructura">
+        <div class="grid flex w-full">
+          <div class="col-4">
+            <div class="flex-auto">
+              <label>Situación relativa de la estructura</label>
+              <p-dropdown
+                placeholder="Situación relativa de la estructura"
+                [options]="configService.situacionEstructura"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+                optionValue="value"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="flex-auto">
+              <label>Tipo de ambiente</label>
+              <p-dropdown
+                placeholder="Tipo de ambiente"
+                [options]="configService.tipoAmbiente"
+                optionLabel="name"
+                [style]="{ width: '100%' }"
+                optionValue="value"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="flex flex-column justify-conten-center">
+              <label>Densidad de descargas atmosféricas</label>
+              <p-inputNumber
+                [style]="{ minWidth: '100%' }"
+                placeholder="Densidad de descargas atmosféricas"
+                [useGrouping]="false"
+              ></p-inputNumber>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="activeIndex === 1">
+    <div class="grid">
+      <div class="col-8">
+        <p-card header="Componente estructura">
+          <div class="grid">
+            <div class="col-4">
+              <p-panel header="Medidas de protección a seres vivos">
+                <div class="flex flex-column gap-2">
+                  <div
+                    class="flex flex-row justify-content-between h-full gap-2"
+                  >
+                    Sin medidas de protección
+                    <p-checkbox [binary]="true"></p-checkbox>
+                  </div>
+                  <div
+                    class="flex flex-row justify-content-between h-full gap-2"
+                  >
+                    Aislamiento eléctrico de bajantes expuestas
+                    <p-checkbox [binary]="true"></p-checkbox>
+                  </div>
+                  <div
+                    class="flex flex-row justify-content-between h-full gap-2"
+                  >
+                    Equipotencialización efectiva del suelo
+                    <p-checkbox [binary]="true"></p-checkbox>
+                  </div>
+                  <div
+                    class="flex flex-row justify-content-between h-full gap-2"
+                  >
+                    Avisos de advertencia
+                    <p-checkbox [binary]="true"></p-checkbox>
+                  </div>
+                </div>
+              </p-panel>
+            </div>
+            <div class="col-3">
+              <div class="flex flex-column w-full">
+                <div class="flex flex-row w-full align-items-center gap-2">
+                  <p-panel
+                    class="w-full h-full gap-2"
+                    header="Protección interna contra rayos"
+                  >
+                    <div
+                      class="flex flex-row justify-content-start align-items-center h-full gap-2"
+                    >
+                      Cuenta con protección:
+                      <p-toggleButton
+                        onLabel="SÍ"
+                        offLabel="NO"
+                      ></p-toggleButton>
+                    </div>
+                    <div
+                      class="flex flex-row justify-content-start w-full gap-2 pt-4"
+                    >
+                      <div class="flex flex-column w-full">
+                        <label> Nivel de protección </label>
+                        <p-dropdown
+                          class="w-full"
+                          [style]="{ minWidth: '100%' }"
+                          placeholder="Nivel de protección"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+                  </p-panel>
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="flex flex-column">
+                <div class="flex flex-row align-items-center gap-2">
+                  <p-panel
+                    class="w-full h-full gap-2"
+                    header="Protección a la estructura"
+                  >
+                    <div
+                      class="flex flex-row justify-content-start align-items-center h-full gap-2"
+                    >
+                      Cuenta con protección:
+                      <p-toggleButton
+                        onLabel="SÍ"
+                        offLabel="NO"
+                      ></p-toggleButton>
+                    </div>
+                    <div
+                      class="flex flex-row justify-content-start w-full gap-2 pt-4"
+                    >
+                      <div class="flex flex-column w-full">
+                        <label> Nivel de protección </label>
+                        <p-dropdown
+                          class="w-full"
+                          [style]="{ minWidth: '100%' }"
+                          placeholder="Nivel de protección"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+                  </p-panel>
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+      <div class="col-4">
+        <p-card header="Componente acometida"> </p-card>
+      </div>
+    </div>
+  </ng-container>
+</div>

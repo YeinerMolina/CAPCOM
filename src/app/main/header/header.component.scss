@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  padding: 20px 120px;
+}
+.logo {
+  font-size: x-large;
+  font-weight: bold;
+}
+.manu {
+  gap: 40px;
+  display: flex;
+  flex-direction: row;
+}
+
+.manu_item {
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  cursor: pointer;
+}
