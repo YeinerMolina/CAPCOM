@@ -1,0 +1,50 @@
+:root {
+  --main-color: #00aff0;
+  --second-color: #1fc9d0;
+  --main-background-color: #def3ff;
+  --second-background-color: #00aff0;
+  --buttons-color: #0090d4;
+  --text-color: #065074;
+  --solid-default: #00aff0;
+  --solid-hover: #0090d4;
+  --solid-active: #0073ab;
+  --disabled: #b6eaff;
+}
+
+.p-menuitem-link {
+  cursor: pointer !important;
+}
+
+.main-color {
+  color: var(--main-color);
+}
+
+.second-color {
+  color: var(--second-color);
+}
+
+.main-background-color {
+  background-color: var(--main-background-color);
+}
+
+.contract-background-color {
+  background-color: var(--second-background-color);
+}
+
+.text-color {
+  color: var(--text-color);
+}
+
+.second-text-color {
+  color: var(--second-background-color);
+}
+
+.disabled {
+  background-color: var(--disabled);
+  color: var(--solid-active);
+}
+
+hr {
+  border-color: #f5f5f5;
+  margin: 10px 0;
+}
