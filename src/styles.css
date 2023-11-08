@@ -22,3 +22,6 @@ body {
   margin: 0;
 }
 
+.p-dropdown-item.p-ripple {
+  white-space: normal;
+}

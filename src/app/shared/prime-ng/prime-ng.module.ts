@@ -12,27 +12,13 @@ import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { MessagesModule } from 'primeng/messages';
+import { DialogModule } from 'primeng/dialog';
 
 import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [],
-  imports: [
-    StepsModule,
-    DropdownModule,
-    InputTextModule,
-    CardModule,
-    InputNumberModule,
-    CheckboxModule,
-    ListboxModule,
-    ToggleButtonModule,
-    FieldsetModule,
-    PanelModule,
-    TabViewModule,
-    TableModule,
-    ButtonModule,
-    MessagesModule,
-  ],
+  imports: [],
   exports: [
     StepsModule,
     DropdownModule,
@@ -48,6 +34,7 @@ import { NgModule } from '@angular/core';
     TableModule,
     ButtonModule,
     MessagesModule,
+    DialogModule,
   ],
 })
 export class PrimeNgModule {}

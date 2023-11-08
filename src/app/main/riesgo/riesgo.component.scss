@@ -78,3 +78,10 @@ label {
 p-inputnumber {
   width: 100%;
 }
+
+p-table {
+  td,
+  th {
+    max-width: 190px !important;
+  }
+}

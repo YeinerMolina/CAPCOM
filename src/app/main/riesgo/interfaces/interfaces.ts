@@ -15,13 +15,16 @@ export interface RiesgoForm {
   tipoAmbiente: FormControl<number | null>;
   densidadDescargasAtmosféricas: FormControl<number | null>;
   proteccionRayo: FormControl<boolean | null>;
-  proteccionEstructura: FormControl<boolean>;
+  proteccionEstructura: FormControl<number | null>;
+
+  anchoCuadricula: FormControl<number | null>;
+  tensionNominal: FormControl<number | null>;
+  cableadoMalla: FormControl<number | null>;
 
   proteccionInterna: FormControl<string | null>;
-  proteccionAEstructura: FormControl<string | null>;
+  proteccionAEstructura: FormControl<number | null>;
   normativaDPS: FormControl<boolean | null>;
   tipoCableAcometida: FormControl<number | null>;
-  tensionMinima: FormControl<number | null>;
 
   dpsEntrada: FormControl<boolean | null>;
 
@@ -49,13 +52,24 @@ export interface RiesgoForm {
   resistividadPantalla: FormControl<number | null>;
 }
 
-export type ILineasForm = FormGroup<{
+export type ILineasForm = FormGroup<LineaFormGroup>;
+
+export interface LineaFormGroup {
   nSobretenciones: FormControl<number | null>;
   fInstalacion: FormControl<number | null>;
   tipoLinea: FormControl<number | null>;
   fMedio: FormControl<number | null>;
   longitud: FormControl<number | null>;
-}>;
+  caracteristicasLinea: FormControl<number | null>;
+  proteccionDps: FormControl<number | null>;
+  tensionMinima: FormControl<number | null>;
+  resistenciaBlindaje: FormControl<number | null>;
+
+  medidasDeProteccion: FormControl<boolean | null>;
+  avisos: FormControl<boolean | null>;
+  aislamientoElectrico: FormControl<boolean | null>;
+  restriccionFisica: FormControl<boolean | null>;
+}
 
 export interface RiesgoFormValue {
   altura: number;
@@ -69,8 +83,14 @@ export interface RiesgoFormValue {
   aislamientoElectrico: boolean;
   equipotencializacion: boolean;
   avisosDeAdvertencia: boolean;
+  restricciones: boolean;
   proteccionInterna: string;
-  proteccionAEstructura: string;
+  proteccionAEstructura: number;
+  proteccionEstructura: number;
+
+  anchoCuadricula: number;
+  tensionNominal: number;
+  cableadoMalla: number;
 
   lineas: ILineasValue[];
 
@@ -95,4 +115,13 @@ export interface ILineasValue {
   fInstalacion: number;
   fMedio: number;
   longitud: number;
+  caracteristicasLinea: number;
+  proteccionDps: number;
+  tensionMinina: number;
+  resistenciaBlindaje: number;
+
+  medidasDeProteccion: boolean;
+  avisos: boolean;
+  aislamientoElectrico: boolean;
+  restriccionFisica: boolean;
 }

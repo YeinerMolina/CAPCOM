@@ -19,13 +19,17 @@ export class RiesgoFormService {
       tipoAmbiente: [null, Validators.required],
       densidadDescargasAtmosféricas: [null, Validators.required],
       proteccionRayo: [false, Validators.required],
-      proteccionEstructura: [false, Validators.required],
+
+      anchoCuadricula: [null, Validators.required],
+      tensionNominal: [null, Validators.required],
+      cableadoMalla: [null, Validators.required],
 
       proteccionInterna: [null, Validators.required],
+
+      proteccionEstructura: [null, Validators.required],
       proteccionAEstructura: [null, Validators.required],
       normativaDPS: [false, Validators.required],
       tipoCableAcometida: [null, Validators.required],
-      tensionMinima: [null, Validators.required],
       dpsEntrada: [false, Validators.required],
 
       // Probailidad seres vivos
@@ -62,6 +66,16 @@ export class RiesgoFormService {
       fInstalacion: [null, Validators.required],
       fMedio: [null, Validators.required],
       longitud: [null, [Validators.required, Validators.min(0)]],
+      caracteristicasLinea: [null, Validators.required],
+      proteccionDps: [null, Validators.required],
+      tensionMinima: [null, Validators.required],
+      resistenciaBlindaje: [null],
+
+      //medidasProteccion
+      medidasDeProteccion: [false],
+      avisos: [false],
+      aislamientoElectrico: [false],
+      restriccionFisica: [false],
     }) as ILineasForm;
   }
 }

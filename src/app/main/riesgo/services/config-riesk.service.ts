@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { IDropDownConfig } from 'src/app/shared/interfaces/interfaces';
+import { IDropDownConfigNumber } from 'src/app/shared/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigRiskService {
   constructor() {}
+
+  getLabel(value: number, arrayName: keyof ConfigRiskService) {
+    const array = this[arrayName] as IDropDownConfigNumber[];
+    if (!array) return value;
+    return array.find((item) => item.value === value)?.name ?? '';
+  }
 
   items: MenuItem[] = [
     {
@@ -20,7 +26,7 @@ export class ConfigRiskService {
     },
   ];
 
-  tipoAcometida: IDropDownConfig<number>[] = [
+  tipoAcometida: IDropDownConfigNumber[] = [
     {
       name: 'Aerea',
       value: 1,
@@ -35,7 +41,7 @@ export class ConfigRiskService {
     },
   ];
 
-  situacionEstructura: IDropDownConfig<number>[] = [
+  situacionEstructura: IDropDownConfigNumber[] = [
     {
       name: 'Estructura rodeada por objetos más altos',
       value: 0.25,
@@ -54,7 +60,7 @@ export class ConfigRiskService {
     },
   ];
 
-  tipoAmbiente: IDropDownConfig<number>[] = [
+  tipoAmbiente: IDropDownConfigNumber[] = [
     {
       name: 'Urbano con edificaciones de altas (Más de 20m de altura)',
       value: 0,
@@ -73,14 +79,26 @@ export class ConfigRiskService {
     },
   ];
 
-  proteccionEstructura: IDropDownConfig<number>[] = [
+  proteccionEstructura: IDropDownConfigNumber[] = [
     {
-      name: 'No protegida',
-      value: 0,
+      name: 'No protegida por un SPCR',
+      value: 1,
+    },
+    {
+      name: 'Protegida por un SPCR',
+      value: -1,
+    },
+    {
+      name: 'Estructura con dispositivo captador de nivel I, con armaduras metálicas continuas o armaduras de hormigón actuando como conductores naturales de bajada',
+      value: 0.01,
+    },
+    {
+      name: '',
+      value: 0.001,
     },
   ];
 
-  tipoTransformador: IDropDownConfig<number>[] = [
+  tipoTransformador: IDropDownConfigNumber[] = [
     {
       name: 'Transformador con devanado primario y secundario desacoplados eléctricamente',
       value: 1,
@@ -95,41 +113,45 @@ export class ConfigRiskService {
     },
   ];
 
-  nivelProteccion: IDropDownConfig<number>[] = [
+  nivelProteccion: IDropDownConfigNumber[] = [
     {
       name: 'IV',
-      value: 1,
+      value: 0.2,
     },
     {
       name: 'III',
-      value: 1,
+      value: 0.1,
     },
     {
       name: 'II',
-      value: 1,
+      value: 0.05,
     },
     {
       name: 'I',
-      value: 1,
+      value: 0.02,
     },
   ];
 
-  nivelProteccionRayo: IDropDownConfig<number>[] = [
+  nivelProteccionRayo: IDropDownConfigNumber[] = [
+    {
+      name: 'Sin un sistema coordinado de DPS',
+      value: 1,
+    },
     {
       name: 'III - IV',
-      value: 1,
+      value: 0.05,
+    },
+    {
+      name: 'II',
+      value: 0.02,
     },
     {
       name: 'I',
-      value: 1,
-    },
-    {
-      name: 'Mayor capacidad de corriente soportable que el nivel I',
-      value: 1,
+      value: 0.01,
     },
   ];
 
-  tipoCableAcometida: IDropDownConfig<number>[] = [
+  tipoCableAcometida: IDropDownConfigNumber[] = [
     {
       name: 'Cable sin pantalla',
       value: 1,
@@ -138,55 +160,55 @@ export class ConfigRiskService {
       name: 'Cable con pantalla sin equipotencializar',
       value: 1,
     },
-    {
-      name: 'Cable apantallado (5 < Rs <= 20)',
-      value: 1,
-    },
-    {
-      name: 'Cable apantallado (1 < Rs <= 5)',
-      value: 1,
-    },
-    {
-      name: 'Cable apantallado (Rs < 1)',
-      value: 1,
-    },
   ];
 
-  tensionMinima: IDropDownConfig<number>[] = [
+  tensionMinima: IDropDownConfigNumber[] = [
+    {
+      name: '1',
+      value: 1,
+    },
     {
       name: '1.5',
-      value: 1,
+      value: 2,
     },
     {
       name: '2.5',
-      value: 1,
+      value: 3,
     },
     {
       name: '4',
-      value: 1,
+      value: 4,
     },
     {
       name: '6',
-      value: 1,
+      value: 5,
     },
   ];
 
-  catecteristicaLinea: IDropDownConfig<number>[] = [
+  catecteristicaLinea: IDropDownConfigNumber[] = [
     {
-      name: 'Pantalla en contacto con el suelo',
+      name: 'Linea de potencia con multi puesta a tierra del neutro',
+      value: 4,
+    },
+    {
+      name: 'Cable o cableado colocado en conductos protegidos contra el rayo, conductos o tubos metálicos',
+      value: 3,
+    },
+    {
+      name: 'Apantallada conectada a la misma barra equipotencial que el equipamiento',
+      value: 2,
+    },
+    {
+      name: 'Apantallada sin conectar a la misma barra equipotencial que el equipamiento',
       value: 1,
     },
     {
-      name: 'Pantalla sin contacto con el suelo',
-      value: 1,
-    },
-    {
-      name: 'Sin pantalla',
-      value: 1,
+      name: 'Sin apantallamiento',
+      value: 0,
     },
   ];
 
-  factorTipoLinea: IDropDownConfig<number>[] = [
+  factorTipoLinea: IDropDownConfigNumber[] = [
     {
       name: 'Linea de potencia de BT, linea de datos o de telecomunicaciones',
       value: 1,
@@ -194,6 +216,63 @@ export class ConfigRiskService {
     {
       name: 'Linea de potencia de AT (con transformacion AT/BT)',
       value: 0.2,
+    },
+  ];
+
+  cableadoMalla: IDropDownConfigNumber[] = [
+    {
+      name: 'Sin apantallamiento externo',
+      value: 0,
+    },
+    {
+      name: 'Cable sin blindar - sin precauciones de cableado para evitar bucles',
+      value: 1,
+    },
+    {
+      name: 'Cable sin blindar - con precauciones de cableado para evitar grandes bucles',
+      value: 0.2,
+    },
+    {
+      name: 'Cable sin blindar - con precauciones de cableado para evitar bucles',
+      value: 0.01,
+    },
+    {
+      name: 'Cable con blindaje y cables en conductos metálicos',
+      value: 0.0001,
+    },
+  ];
+
+  medidasProteccionLinea: IDropDownConfigNumber[] = [
+    {
+      name: 'Sin medidas de protección',
+      value: 1,
+    },
+    {
+      name: 'Avisos',
+      value: 0.1,
+    },
+    {
+      name: 'Aislamiento eléctrico',
+      value: 0.01,
+    },
+    {
+      name: 'Restricciones físicas',
+      value: 0,
+    },
+  ];
+
+  resistenciaBlindaje: IDropDownConfigNumber[] = [
+    {
+      name: 'Cable apantallado (5 < Rs <= 20)',
+      value: 1,
+    },
+    {
+      name: 'Cable apantallado (1 < Rs <= 5)',
+      value: 2,
+    },
+    {
+      name: 'Cable apantallado (Rs < 1)',
+      value: 3,
     },
   ];
 }
