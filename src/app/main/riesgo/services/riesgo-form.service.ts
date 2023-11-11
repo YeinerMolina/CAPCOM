@@ -16,20 +16,21 @@ export class RiesgoFormService {
       ancho: [null, Validators.required],
       areaRecoleccion: [null],
       situacionRelativa: [null, Validators.required],
-      tipoAmbiente: [null, Validators.required],
       densidadDescargasAtmosféricas: [null, Validators.required],
       proteccionRayo: [false, Validators.required],
+      tipoSuperficie: [null, Validators.required],
+      resistenciaContacto: [null],
+      nPersonas: [null, Validators.required],
+      nPersonasEstructura: [null, Validators.required],
+      nHoraPersonas: [null, Validators.required],
 
-      anchoCuadricula: [null, Validators.required],
-      tensionNominal: [null, Validators.required],
-      cableadoMalla: [null, Validators.required],
-
-      proteccionInterna: [null, Validators.required],
+      sinMedidasIncendio: [false],
+      medidasIncendioP: [false],
+      medidasIncendioS: [false],
 
       proteccionEstructura: [null, Validators.required],
       proteccionAEstructura: [null, Validators.required],
       normativaDPS: [false, Validators.required],
-      tipoCableAcometida: [null, Validators.required],
       dpsEntrada: [false, Validators.required],
 
       // Probailidad seres vivos
@@ -39,29 +40,16 @@ export class RiesgoFormService {
       avisosDeAdvertencia: [false],
       restricciones: [false],
 
+      riesgoFuego: [null, Validators.required],
+      riesgoExplosion: [null, Validators.required],
+
       //Lineas de potencia
       lineas: this.formBuilder.array<ILineasForm>([]),
-
-      //Acometida
-      tipoAcometida: [null, Validators.required],
-      longitudAco: [null, Validators.required],
-      alturaAco: [null, Validators.required],
-
-      numeroAcometidasPotencia: [null, Validators.required],
-      numeroAcometidasTelecomunicaciones: [null, Validators.required],
-      aislamientoNivelExterior: [false, Validators.required],
-      alturaIngresoAcometida: [null, Validators.required],
-      alturaAcometidaExterna: [null, Validators.required],
-
-      //Resistividad
-      resistividadTerreno: [null, Validators.required],
-      resistividadPantalla: [null, Validators.required],
     }) as FormGroup<RiesgoForm>;
   }
 
   buildLineForm(): ILineasForm {
     return this.formBuilder.group({
-      nSobretenciones: [null, [Validators.required, Validators.min(0)]],
       tipoLinea: [null, Validators.required],
       fInstalacion: [null, Validators.required],
       fMedio: [null, Validators.required],
@@ -76,6 +64,10 @@ export class RiesgoFormService {
       avisos: [false],
       aislamientoElectrico: [false],
       restriccionFisica: [false],
+
+      anchoCuadricula: [null],
+      tensionNominal: [null],
+      cableadoMalla: [null, Validators.required],
     }) as ILineasForm;
   }
 }

@@ -151,17 +151,6 @@ export class ConfigRiskService {
     },
   ];
 
-  tipoCableAcometida: IDropDownConfigNumber[] = [
-    {
-      name: 'Cable sin pantalla',
-      value: 1,
-    },
-    {
-      name: 'Cable con pantalla sin equipotencializar',
-      value: 1,
-    },
-  ];
-
   tensionMinima: IDropDownConfigNumber[] = [
     {
       name: '1',
@@ -237,7 +226,7 @@ export class ConfigRiskService {
       value: 0.2,
     },
     {
-      name: 'Cable sin blindar - con precauciones de cableado para evitar bucles',
+      name: 'Cable con blindaje - con precauciones de cableado para evitar bucles',
       value: 0.01,
     },
     {
@@ -275,8 +264,69 @@ export class ConfigRiskService {
       value: 2,
     },
     {
-      name: 'Cable apantallado (Rs < 1)',
+      name: 'Cable apantallado (Rs <= 1)',
       value: 3,
+    },
+  ];
+
+  tipoSuperficie: IDropDownConfigNumber[] = [
+    {
+      name: 'Agrícola, hormigón',
+      value: 0.01,
+    },
+    {
+      name: 'Mármol, cerámica',
+      value: 0.001,
+    },
+    {
+      name: 'Grava, tapetes, alfombra',
+      value: 0.0001,
+    },
+    {
+      name: 'Asfalto, linóleo, madera',
+      value: 0.00001,
+    },
+    {
+      name: 'Otro',
+      value: -1,
+    },
+  ];
+
+  riesgoFuego: IDropDownConfigNumber[] = [
+    {
+      name: 'Alto',
+      value: 0.1,
+    },
+    {
+      name: 'Normal',
+      value: 0.01,
+    },
+    {
+      name: 'Bajo',
+      value: 0.001,
+    },
+    {
+      name: 'Ninguno',
+      value: 0,
+    },
+  ];
+
+  riesgoExplosion: IDropDownConfigNumber[] = [
+    {
+      name: 'Zonas 0, 20 y explosivos sólidos',
+      value: 1,
+    },
+    {
+      name: 'Zonas 1, 21',
+      value: 0.1,
+    },
+    {
+      name: 'Zonas 2, 22',
+      value: 0.001,
+    },
+    {
+      name: 'Ninguno',
+      value: 0,
     },
   ];
 }

@@ -12,20 +12,21 @@ export interface RiesgoForm {
   ancho: FormControl<number | null>;
   areaRecoleccion: FormControl<number | null>;
   situacionRelativa: FormControl<number | null>;
-  tipoAmbiente: FormControl<number | null>;
   densidadDescargasAtmosféricas: FormControl<number | null>;
   proteccionRayo: FormControl<boolean | null>;
+  tipoSuperficie: FormControl<number | null>;
+  resistenciaContacto: FormControl<number | null>;
+  nPersonas: FormControl<number | null>;
+  nPersonasEstructura: FormControl<number | null>;
+  nHoraPersonas: FormControl<number | null>;
+
+  sinMedidasIncendio: FormControl<boolean | null>;
+  medidasIncendioP: FormControl<boolean | null>;
+  medidasIncendioS: FormControl<boolean | null>;
+
   proteccionEstructura: FormControl<number | null>;
-
-  anchoCuadricula: FormControl<number | null>;
-  tensionNominal: FormControl<number | null>;
-  cableadoMalla: FormControl<number | null>;
-
-  proteccionInterna: FormControl<string | null>;
   proteccionAEstructura: FormControl<number | null>;
   normativaDPS: FormControl<boolean | null>;
-  tipoCableAcometida: FormControl<number | null>;
-
   dpsEntrada: FormControl<boolean | null>;
 
   sinMedidaProteccion: FormControl<boolean>;
@@ -34,28 +35,16 @@ export interface RiesgoForm {
   avisosDeAdvertencia: FormControl<boolean>;
   restricciones: FormControl<boolean>;
 
+  riesgoFuego: FormControl<number | null>;
+  riesgoExplosion: FormControl<number | null>;
+
   //Lineas de potencia
   lineas: FormArray<ILineasForm>;
-
-  //Acometida
-  tipoAcometida: FormControl<number | null>;
-  longitudAco: FormControl<number | null>;
-  alturaAco: FormControl<number | null>;
-  numeroAcometidasPotencia: FormControl<number | null>;
-  numeroAcometidasTelecomunicaciones: FormControl<number | null>;
-  aislamientoNivelExterior: FormControl<boolean | null>;
-  alturaIngresoAcometida: FormControl<number | null>;
-  alturaAcometidaExterna: FormControl<number | null>;
-
-  //Resistividad
-  resistividadTerreno: FormControl<number | null>;
-  resistividadPantalla: FormControl<number | null>;
 }
 
 export type ILineasForm = FormGroup<LineaFormGroup>;
 
 export interface LineaFormGroup {
-  nSobretenciones: FormControl<number | null>;
   fInstalacion: FormControl<number | null>;
   tipoLinea: FormControl<number | null>;
   fMedio: FormControl<number | null>;
@@ -69,6 +58,10 @@ export interface LineaFormGroup {
   avisos: FormControl<boolean | null>;
   aislamientoElectrico: FormControl<boolean | null>;
   restriccionFisica: FormControl<boolean | null>;
+
+  anchoCuadricula: FormControl<number | null>;
+  tensionNominal: FormControl<number | null>;
+  cableadoMalla: FormControl<number | null>;
 }
 
 export interface RiesgoFormValue {
@@ -84,33 +77,30 @@ export interface RiesgoFormValue {
   equipotencializacion: boolean;
   avisosDeAdvertencia: boolean;
   restricciones: boolean;
-  proteccionInterna: string;
   proteccionAEstructura: number;
   proteccionEstructura: number;
+  tipoSuperficie: number;
+  resistenciaContacto: number;
+  proteccionIncendio: number;
 
-  anchoCuadricula: number;
-  tensionNominal: number;
-  cableadoMalla: number;
+  nPersonas: number;
+  nPersonasEstructura: number;
+  nHoraPersonas: number;
+
+  sinMedidasIncendio: boolean;
+  medidasIncendioP: boolean;
+  medidasIncendioS: boolean;
 
   lineas: ILineasValue[];
-
-  //Acometida
-  tipoAcometida: number;
-  longitudAco: number;
-  alturaAco: number;
-  numeroAcometidasPotencia: number;
-  numeroAcometidasTelecomunicaciones: number;
   aislamientoNivelExterior: boolean;
   alturaIngresoAcometida: number;
   alturaAcometidaExterna: number;
 
-  //Resistividad
-  resistividadTerreno: number;
-  resistividadPantalla: number;
+  riesgoFuego: number;
+  riesgoExplosion: number;
 }
 
 export interface ILineasValue {
-  nSobretenciones: number;
   tipoLinea: number;
   fInstalacion: number;
   fMedio: number;
@@ -124,4 +114,19 @@ export interface ILineasValue {
   avisos: boolean;
   aislamientoElectrico: boolean;
   restriccionFisica: boolean;
+
+  anchoCuadricula: number;
+  tensionNominal: number;
+  cableadoMalla: number;
+}
+
+export interface ICalcularPerdidasResponse {
+  la: number;
+  lu: number;
+  lb: number;
+  lv: number;
+  lc: number;
+  lm: number;
+  lw: number;
+  lz: number;
 }
