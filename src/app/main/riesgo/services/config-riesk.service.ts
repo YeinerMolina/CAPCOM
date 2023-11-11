@@ -210,8 +210,12 @@ export class ConfigRiskService {
 
   factorTipoLinea: IDropDownConfigNumber[] = [
     {
-      name: 'Linea de potencia de BT, linea de datos o de telecomunicaciones',
+      name: 'Linea de datos o de telecomunicaciones',
       value: 1,
+    },
+    {
+      name: 'Linea de potencia de BT',
+      value: 0.99,
     },
     {
       name: 'Linea de potencia de AT (con transformacion AT/BT)',

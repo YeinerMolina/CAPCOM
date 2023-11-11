@@ -1,12 +1,9 @@
-import { MenuItem } from 'primeng/api';
-
 import { Component, OnInit } from '@angular/core';
 import { ConfigRiskService } from './services/config-riesk.service';
 import { RiesgoFormService } from './services/riesgo-form.service';
 import {
   AbstractControl,
   FormArray,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -27,7 +24,7 @@ import { DropdownChangeEvent } from 'primeng/dropdown';
 export class RiesgoComponent implements OnInit {
   activeIndex: number = 0;
   form!: FormGroup<RiesgoForm>;
-  visible: boolean = true;
+  visible: boolean = false;
   actualNumber: number = -1;
   temporalFormGroup: ILineasForm = this.formService.buildLineForm();
 
@@ -48,35 +45,23 @@ export class RiesgoComponent implements OnInit {
     console.log(this.form);
     if (this.form.invalid) return this.form.markAllAsTouched();
     const value = this.form.value as RiesgoFormValue;
-    let ad = value.areaRecoleccion;
-    const h = value.altura;
-    const w = value.ancho;
-    const l = value.longitud;
-    if (!value.areaRecoleccion) {
-      ad = l * w + 2 * (3 * h) * (l + w) + Math.PI * Math.pow(3 * h, 2);
-    }
 
-    const nd =
-      +value.densidadDescargasAtmosféricas *
-      +ad *
-      +value.situacionRelativa *
-      Math.pow(10, -6);
-
-    const am = 2 * Math.pow(500, 3) * value.longitud * value.ancho;
-
-    const nm = +value.densidadDescargasAtmosféricas * am;
+    const nd = this.caldularNd(value)
+    const nm = this.calcularNm(value)
 
     const lineas = this.calcularValueLineas(value);
     const pc = this.calcularValueBlindaje(value);
 
     const pm = this.calcularPm(value);
+    const pv = this.calcularPv(value.lineas)
+    const pw = pv;
 
     const pta = this.calcularMedidasDeProteccionAdicionales(value);
     const pb = this.calcularProteccionEstructura(value);
     const pa = pta * pb;
     const pu = this.calcularPu(value);
 
-    console.log({ nd, ad, nm, value, lineas, pta, pb, pa, pc, pm });
+    console.log({ nd, nm, value, lineas, pta, pb, pa, pc, pm, pw, pu });
   }
 
   private calcularPu(value: RiesgoFormValue) {
@@ -107,7 +92,7 @@ export class RiesgoComponent implements OnInit {
   }
 
   private calcularValueBlindaje(value: RiesgoFormValue): number[] {
-    if (!value.lineas.length) [0];
+    if (!value.lineas.length) return [0];
     return value.lineas.map((item) => {
       let _clil: number = 0;
       let cldl: number = 0;
@@ -240,9 +225,9 @@ export class RiesgoComponent implements OnInit {
     return this.lineasForm.controls[index];
   }
 
-  validateField(id: string, form: ILineasForm): Boolean;
-  validateField(id: string, index?: number): Boolean;
-  validateField(id: string, index?: number | ILineasForm): Boolean {
+  validateField(id: string, form: ILineasForm): boolean;
+  validateField(id: string, index?: number): boolean;
+  validateField(id: string, index?: number | ILineasForm): boolean {
     let form: AbstractControl | null;
     if (index) {
       if (index instanceof FormGroup) form = index.get(id);
@@ -280,4 +265,59 @@ export class RiesgoComponent implements OnInit {
     }
     this.form.controls.proteccionAEstructura.updateValueAndValidity();
   }
+
+  private calcularPv(lineas: ILineasValue[]){
+    const pld = 1;
+    const cld = 1;
+    return lineas.map((item) => item.proteccionDps*pld*cld) //TODO Acá hay que colocar lo del calculo de tensiones soportadas y tipo de cable
+  }
+
+  private calcularPz(lineas: ILineasValue[]){
+    const pli = 1;
+    const cli = 1;
+    return lineas.map((item) => item.proteccionDps*pli*cli) //TODO Acá hay que colocar lo del calculo de tensiones soportadas y tipo de cable
+  }
+
+  private calcularPli(lineas: ILineasValue[]){
+    return lineas.map((item) => {
+      if(item.tensionMinina === 1) return 1
+      if(item.tipoLinea === 1) {
+        if(item.tensionMinina === 2) return 0.5
+        if(item.tensionMinina === 3) return 0.2
+        if(item.tensionMinina === 4) return 0.08
+        if(item.tensionMinina === 5) return 0.04
+        return 0
+      } else {
+        if(item.tensionMinina === 2) return 0.6
+        if(item.tensionMinina === 3) return 0.3
+        if(item.tensionMinina === 4) return 0.16
+        if(item.tensionMinina === 5) return 0.1
+        return 0
+      }
+    })
+  }
+
+  //Eventos peligrosos
+  private caldularNd(value: RiesgoFormValue) {
+    const h = value.altura;
+    const w = value.ancho;
+    const l = value.longitud;
+
+    let ad = value.areaRecoleccion;
+    if (!value.areaRecoleccion) {
+      ad = l * w + 2 * (3 * h) * (l + w) + Math.PI * Math.pow(3 * h, 2);
+    }
+    return +value.densidadDescargasAtmosféricas *
+    +ad *
+    +value.situacionRelativa *
+    Math.pow(10, -6);
+  }
+
+  private calcularNm(value: RiesgoFormValue){
+    const am = 2 * Math.pow(500, 3) * value.longitud * value.ancho;
+    return +value.densidadDescargasAtmosféricas * am;
+  }
+
+  //Calculo perdidas vidas humanas
+
 }

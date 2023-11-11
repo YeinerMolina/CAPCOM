@@ -14,9 +14,6 @@
         <p-tabPanel header="Lineas conectadas">
           <ng-container *ngTemplateOutlet="lineas"></ng-container>
         </p-tabPanel>
-        <p-tabPanel header="Carácteristicas resistivas">
-          <ng-container *ngTemplateOutlet="resistiva"></ng-container>
-        </p-tabPanel>
       </p-tabView>
     </div>
   </p-card>
@@ -125,23 +122,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-3">
-      <!-- <div class="field col-12">
-          <div class="flex-auto">
-            <span class="p-float-label">
-              <p-dropdown
-                class="w-full"
-                [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                placeholder="Tipo de transformador"
-                [options]="configService.tipoTransformador"
-                optionLabel="name"
-                optionValue="value"
-              ></p-dropdown>
-              <label> Tipo de transformador </label>
-            </span>
-          </div>
-        </div> -->
     </div>
   </div>
   <div class="grid">
@@ -333,34 +313,34 @@
   <p-table formArrayName="lineas" [value]="lineasForm.value">
     <ng-template pTemplate="header">
       <tr>
-        <th width="100px">Tipo de línea</th>
-        <th width="100px">Longitud</th>
-        <th width="100px">Número sobretenciones mayores a 1kV/año</th>
-        <th width="100px">Factor de la instalación</th>
-        <th width="100px">Factor medioambiental</th>
-        <th width="100px">Caracteristicas de la línea</th>
-        <th width="100px">Nivel de protección DPS</th>
+        <th>Tipo de línea</th>
+        <th>Longitud</th>
+        <th>Número sobretenciones mayores a 1kV/año</th>
+        <th>Factor de la instalación</th>
+        <th>Factor medioambiental</th>
+        <th>Caracteristicas de la línea</th>
+        <th>Nivel de protección DPS</th>
         <th>Acción</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-linea let-rowIndex="rowIndex">
       <tr [formGroup]="getFormLinea(rowIndex)">
-        <td width="100px">
+        <td>
           {{ configService.getLabel(linea.tipoLinea, "factorTipoLinea") }}
         </td>
-        <td width="100px">
+        <td>
           {{ linea.longitud }}
         </td>
-        <td width="100px">
+        <td>
           {{ linea.nSobretenciones }}
         </td>
-        <td width="100px">
+        <td>
           {{ configService.getLabel(linea.fInstalacion, "tipoAcometida") }}
         </td>
-        <td width="100px">
+        <td>
           {{ configService.getLabel(linea.fMedio, "tipoAmbiente") }}
         </td>
-        <td width="100px">
+        <td>
           {{
             configService.getLabel(
               linea.caracteristicasLinea,
@@ -368,7 +348,7 @@
             )
           }}
         </td>
-        <td width="100px">
+        <td>
           {{
             configService.getLabel(linea.proteccionDps, "nivelProteccionRayo")
           }}
@@ -398,329 +378,8 @@
       (click)="addLine()"
     ></p-button>
   </div>
-
-  <!-- <div class="grid">
-    <div class="col-9">
-      <div class="p-fluid grid py-1" [formGroup]="form">
-        <div class="field col-3">
-          <span class="p-float-label">
-            <p-dropdown
-              class="w-full"
-              [style]="{ minWidth: '100%' }"
-              placeholder="Tipo de acometida"
-              [options]="configService.tipoAcometida"
-              optionLabel="name"
-              optionValue="value"
-            ></p-dropdown>
-            <label> Tipo de acometida </label>
-          </span>
-        </div>
-        <div class="field col-3">
-          <div class="p-inputgroup">
-            <div class="p-float-label">
-              <p-inputNumber [useGrouping]="false"></p-inputNumber>
-              <label>Longitud</label>
-            </div>
-            <span class="p-inputgroup-addon">m</span>
-          </div>
-        </div>
-        <div class="field col-3">
-          <div class="p-inputgroup">
-            <div class="p-float-label">
-              <p-inputNumber [useGrouping]="false"></p-inputNumber>
-              <label>Altura</label>
-            </div>
-            <span class="p-inputgroup-addon">m</span>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="flex flex-column w-full">
-            <div class="field">
-              <div class="flex-auto">
-                <span class="p-float-label">
-                  <p-dropdown
-                    class="w-full"
-                    formControlName="tipoCableAcometida"
-                    [options]="configService.tipoCableAcometida"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Tipo de cable de acometida"
-                  ></p-dropdown>
-                  <label> Tipo de cable de acometida </label>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="grid py-1 flex">
-        <div class="field col-4">
-          <div class="p-inputgroup">
-            <div class="p-float-label">
-              <p-inputNumber [useGrouping]="false"></p-inputNumber>
-              <label>Altura del punto de ingreso de la acometida</label>
-            </div>
-            <span class="p-inputgroup-addon">m</span>
-          </div>
-        </div>
-
-        <div class="field col-4">
-          <div class="p-inputgroup">
-            <div class="p-float-label">
-              <p-inputNumber [useGrouping]="false"></p-inputNumber>
-              <label>Altura de la acometida externa</label>
-            </div>
-            <span class="p-inputgroup-addon">m</span>
-          </div>
-        </div>
-
-        <div class="field col-4">
-          <div class="flex flex-column w-full">
-            <div class="field">
-              <div class="flex-auto">
-                <span class="p-float-label">
-                  <p-dropdown
-                    class="w-full"
-                    [options]="configService.tensionMinima"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Tensión mínima soportable [kV]"
-                  ></p-dropdown>
-                  <label> Tensión mínima soportable [kV] </label>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-3">
-      <div class="flex flex-column w-full">
-        <div class="flex flex-row w-full align-items-center gap-2 py-1">
-          <p-panel
-            class="w-full h-full gap-2"
-            header="DPS conectado a la acometida"
-          >
-            <div
-              class="flex flex-row justify-content-between flex-wrap align-items-center h-full gap-2 py-2"
-            >
-              ¿Cumple la normativa nacional vigente?
-              <p-toggleButton
-                formControlName="normativaDPS"
-                onLabel="SÍ"
-                offLabel="NO"
-              ></p-toggleButton>
-            </div>
-
-            <div
-              class="flex flex-row justify-content-between flex-wrap align-items-center h-full gap-2 py-2"
-            >
-              <small class="w-9">
-                ¿Se encuentra conectado a la entrada de la acometida?
-              </small>
-              <p-toggleButton onLabel="SÍ" offLabel="NO"></p-toggleButton>
-            </div>
-          </p-panel>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="col-6">
-      <p-panel class="w-full h-full gap-2" header="Acometidas de potencia">
-        <div class="grid">
-          <div class="col-4">
-            <div
-              class="flex flex-column justify-content-between align-items-center"
-            >
-              <div class="pt-2 w-full">
-                <span class="p-float-label w-full">
-                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
-                  <label>Cantidad de acometidas</label>
-                </span>
-              </div>
-              <div class="flex-auto pt-5 w-full">
-                <span class="p-float-label w-full">
-                  <p-dropdown
-                    class="w-full"
-                    [options]="configService.catecteristicaLinea"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Característica de la línea"
-                  ></p-dropdown>
-                  <label> Característica de la línea </label>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div
-              class="flex flex-column justify-content-between align-items-center"
-            >
-              <div class="flex-auto pt-2 w-full">
-                <span class="p-float-label w-full">
-                  <p-dropdown
-                    class="w-full"
-                    [options]="configService.catecteristicaLinea"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Medida de protección"
-                  ></p-dropdown>
-                  <label> Medida de protección </label>
-                </span>
-              </div>
-              <div class="flex-auto pt-5 w-full">
-                <span class="p-float-label w-full">
-                  <p-dropdown
-                    class="w-full"
-                    [options]="configService.catecteristicaLinea"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Tensión nominal"
-                  ></p-dropdown>
-                  <label> Tensión nominal </label>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div
-              class="flex flex-row flex-wrap align-items-center h-full gap-2 py-2"
-            >
-              <span class="w-8">
-                ¿Cuenta con DPS que cumpla la normativa nacional vigente?
-              </span>
-              <p-toggleButton
-                class="w-1"
-                onLabel="SÍ"
-                offLabel="NO"
-              ></p-toggleButton>
-            </div>
-          </div>
-        </div>
-      </p-panel>
-    </div>
-    <div class="col-6">
-      <p-panel
-        class="w-full h-full gap-2"
-        header="Acometidas de comunicaciones"
-      >
-        <div class="grid">
-          <div class="col-4">
-            <div
-              class="flex flex-column justify-content-between align-items-center"
-            >
-              <div class="pt-2 w-full">
-                <span class="p-float-label w-full">
-                  <p-inputNumber [useGrouping]="false"></p-inputNumber>
-                  <label>Cantidad de acometidas</label>
-                </span>
-              </div>
-              <div class="flex-auto pt-5 w-full">
-                <span class="p-float-label w-full">
-                  <p-dropdown
-                    class="w-full"
-                    [options]="configService.catecteristicaLinea"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Característica de la línea"
-                  ></p-dropdown>
-                  <label> Característica de la línea </label>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div
-              class="flex flex-column justify-content-between align-items-center"
-            >
-              <div class="flex-auto pt-2 w-full">
-                <span class="p-float-label w-full">
-                  <p-dropdown
-                    class="w-full"
-                    [options]="configService.catecteristicaLinea"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Medida de protección"
-                  ></p-dropdown>
-                  <label> Medida de protección </label>
-                </span>
-              </div>
-              <div class="flex-auto pt-5 w-full">
-                <span class="p-float-label w-full">
-                  <p-dropdown
-                    class="w-full"
-                    [options]="configService.catecteristicaLinea"
-                    optionLabel="name"
-                    optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
-                    placeholder="Tensión nominal"
-                  ></p-dropdown>
-                  <label> Tensión nominal </label>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div
-              class="flex flex-row flex-wrap align-items-center h-full gap-2 py-2"
-            >
-              <span class="w-8">
-                ¿Cuenta con DPS que cumpla la normativa nacional vigente?
-              </span>
-              <p-toggleButton
-                class="w-1"
-                onLabel="SÍ"
-                offLabel="NO"
-              ></p-toggleButton>
-            </div>
-          </div>
-        </div>
-      </p-panel>
-    </div>
-  </div> -->
 </ng-template>
 
-<ng-template #resistiva [formGroup]="form">
-  <div class="grid flex w-full">
-    <div class="field col-2">
-      <div class="p-inputgroup">
-        <div class="p-float-label">
-          <p-inputNumber [useGrouping]="false"></p-inputNumber>
-          <label>Resistividad del terreno</label>
-        </div>
-        <span class="p-inputgroup-addon">m</span>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="p-inputgroup">
-        <div class="p-float-label">
-          <p-inputNumber [useGrouping]="false"></p-inputNumber>
-          <label>Resistividad de pantalla</label>
-        </div>
-        <span class="p-inputgroup-addon">m</span>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
-<!-- <div class="col-3">
-  <div class="flex flex-row align-items-center h-full">
-    <label class="flex align-items-start w-8" for="aislamiento"
-      >Aislamiento del nivel exterior</label
-    >
-    <p-toggleButton onLabel="SÍ" offLabel="NO"></p-toggleButton>
-  </div>
-</div> -->
 
 <p-dialog
   header="Editar linea"
@@ -956,6 +615,7 @@
   </div>
   <p-button
     label="Guardar"
+    [draggable]="false"
     class="flex justify-content-end pt-4"
     styleClass="p-button-outlined"
     (onClick)="guardarLinea()"
