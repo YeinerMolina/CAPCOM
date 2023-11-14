@@ -23,7 +23,6 @@ import { DropdownChangeEvent } from 'primeng/dropdown';
   styleUrls: ['./riesgo.component.scss'],
 })
 export class RiesgoComponent implements OnInit {
-  activeIndex: number = 0;
   form!: FormGroup<RiesgoForm>;
   visible: boolean = false;
   actualNumber: number = -1;
