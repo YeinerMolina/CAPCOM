@@ -1,7 +1,9 @@
+import { IDropDownConfigNumber } from 'src/app/shared/interfaces/interfaces';
+
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IDropDownConfigNumber } from 'src/app/shared/interfaces/interfaces';
-import { IProteccionForm } from '../interfaces/interface';
+
+import { IBloquesForm, IProteccionForm } from '../interfaces/interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +13,18 @@ export class ProteccionFormService {
 
   build(): FormGroup<IProteccionForm> {
     return this.formBuilder.group({
+      bloques: this.formBuilder.array<IBloquesForm>([]),
+      nivelRiesgo: [null, Validators.required],
+    }) as FormGroup<IProteccionForm>;
+  }
+
+  bluidBloques() {
+    return this.formBuilder.group({
       ancho: [null, Validators.required],
       largo: [null, Validators.required],
       alto: [null, Validators.required],
       longitudPunta: [null, Validators.required],
-      nivelRiesgo: [null, Validators.required],
-    }) as FormGroup<IProteccionForm>;
+    }) as IBloquesForm;
   }
 
   nivelRiesgo: IDropDownConfigNumber[] = [

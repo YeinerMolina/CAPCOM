@@ -1,21 +1,22 @@
+import { debounceTime } from 'rxjs';
 import {
   AxesHelper,
   BoxGeometry,
   EdgesGeometry,
-  Line,
+  GridHelper,
   LineBasicMaterial,
   LineSegments,
+  Matrix4,
   Mesh,
   MeshBasicMaterial,
-  MeshNormalMaterial,
   PCFSoftShadowMap,
   PerspectiveCamera,
-  PlaneGeometry,
   PointLight,
-  Raycaster,
+  Ray,
   Scene,
   SphereGeometry,
-  Vector2,
+  TetrahedronGeometry,
+  Vector3,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -30,7 +31,11 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { IProteccionForm, IProteccionFormValue } from './interfaces/interface';
+import {
+  IProteccionBloquesValue,
+  IProteccionForm,
+  IProteccionFormValue,
+} from './interfaces/interface';
 import { ProteccionFormService } from './services/proteccion-form.service';
 
 @Component({
@@ -46,32 +51,38 @@ export class ProteccionContraRayosComponent
   private scene!: Scene;
   private camera!: PerspectiveCamera;
   private renderer!: WebGLRenderer;
-  private protectionSphere!: Line;
-  private structure: LineSegments | null = null;
-
-  nivelProteccionValue: string | null = null;
-
-  width: number = 2;
-  length: number = 2;
-  height: number = 2;
-  radiusOfProtection: number = 0;
+  private protectionSphere!: Mesh;
+  private structures: LineSegments[] = [];
+  activeIndex: number = 1;
 
   public fieldOfView: number = 60;
   public nearClippingPane: number = 1;
   public farClippingPane: number = 1100;
   form: FormGroup<IProteccionForm> = this.proteccionForm.build();
   controls!: OrbitControls;
+  ray!: Ray;
 
   private get canvas(): HTMLCanvasElement {
     return this.canvasRef.nativeElement;
   }
 
+  get formBloques() {
+    return this.form.controls.bloques;
+  }
+
   constructor(public readonly proteccionForm: ProteccionFormService) {}
 
   ngOnInit(): void {
-    this.form.valueChanges.subscribe({
-      next: () => this.addStructure(),
+    this.form.controls.bloques.valueChanges.pipe(debounceTime(300)).subscribe({
+      next: (value) => {
+        this.clearStructures();
+        this.limpiarPuntas();
+        value.forEach((item, index) => {
+          this.addStructure(item as IProteccionBloquesValue, index);
+        });
+      },
     });
+    this.formBloques.push(this.proteccionForm.bluidBloques());
   }
 
   ngAfterViewInit(): void {
@@ -80,7 +91,7 @@ export class ProteccionContraRayosComponent
     this.createCamera();
     this.startRendering();
     this.addControls();
-    this.addFloor();
+    this.activeIndex = 0;
   }
 
   ngOnDestroy(): void {
@@ -91,25 +102,54 @@ export class ProteccionContraRayosComponent
     if (this.form.invalid) return this.form.markAllAsTouched();
     const value = this.form.value as IProteccionFormValue;
     const radio = value.nivelRiesgo;
+    const values = value.bloques.map((item) => {
+      const d = item.longitudPunta;
+      const e = radio - d;
+      const j = Math.sqrt(Math.pow(radio, 2) - Math.pow(e, 2));
+      const k = 2 * j;
+      const p = k / Math.sqrt(2);
+      const pyAprox = Math.ceil(item.largo / p);
+      const pxAprox = Math.ceil(item.ancho / p);
 
-    const d = value.longitudPunta;
-    const e = radio - d;
-    const j = Math.sqrt(Math.pow(radio, 2) - Math.pow(e, 2));
-    const k = 2 * j;
-    const p = k / Math.sqrt(2);
+      let py = Math.max(pyAprox, 2);
+      let px = Math.max(pxAprox, 2);
 
-    const px = Math.ceil(value.ancho / p);
-    const py = Math.ceil(value.largo / p);
-
-    console.log({
-      d,
-      e,
-      j,
-      k,
-      p,
-      px,
-      py,
+      if (pyAprox === 1 && pxAprox === 1) {
+        py = 1;
+        px = 1;
+      }
+      return {
+        px,
+        py,
+      };
     });
+    this.limpiarPuntas();
+    value.bloques.forEach((item, index) => {
+      this.agregarPuntas(item, values[index]);
+      // this.addSphere(item, value.nivelRiesgo);
+      this.scene.updateMatrix();
+    });
+    console.log({
+      values,
+    });
+  }
+  private limpiarPuntas() {
+    const puntas = this.scene.children.filter(
+      (item) => (item as Mesh).geometry instanceof TetrahedronGeometry
+    );
+    puntas.forEach((punta) => this.scene.remove(punta));
+  }
+
+  private clearStructures(): void {
+    this.scene.children
+      .filter(
+        (item) =>
+          (item as Mesh).geometry instanceof EdgesGeometry ||
+          (item as Mesh).geometry instanceof BoxGeometry
+      )
+      .forEach((item) => {
+        this.scene.remove(item);
+      });
   }
 
   public addControls() {
@@ -147,8 +187,6 @@ export class ProteccionContraRayosComponent
       this.nearClippingPane,
       this.farClippingPane
     );
-
-    // Set position and look at
     this.camera.position.x = 10;
     this.camera.position.y = 10;
     this.camera.position.z = 100;
@@ -174,60 +212,108 @@ export class ProteccionContraRayosComponent
 
   private createScene() {
     this.scene = new Scene();
-    this.scene.add(new AxesHelper(200));
+    const axesHelper = new AxesHelper(200);
+    const gridHelper = new GridHelper(200, 200);
+    this.scene.add(axesHelper);
+    this.scene.add(gridHelper);
   }
 
-  private addFloor() {
-    const plane = new PlaneGeometry(10, 10);
-    const mesh = new MeshNormalMaterial();
-    const floor = new Mesh(plane, mesh);
-    floor.rotateX(-Math.PI / 2);
-    this.scene.add(floor);
-  }
-
-  private addSphere() {
-    const geometry = new SphereGeometry(2, 32, 32);
+  private addSphere(value: IProteccionBloquesValue, sphereRadius: number) {
+    const geometry = new SphereGeometry(sphereRadius, 32, 32);
     const material = new MeshBasicMaterial({
       color: 'black',
     });
 
-    this.protectionSphere = new Line(geometry, material);
-    this.protectionSphere.position.x = this.width + 2;
+    this.protectionSphere = new Mesh(geometry, material);
+    this.protectionSphere.position.x = value.ancho + sphereRadius;
+    this.protectionSphere.position.y = sphereRadius;
 
     this.scene.add(this.protectionSphere);
   }
 
-  private addStructure() {
-    const value = this.form.value as IProteccionFormValue;
-    this.scene.remove(this.structure!);
-    this.structure = null;
-    const plane = new BoxGeometry(value.ancho, value.alto, value.largo);
+  private agregarPuntas(
+    value: IProteccionBloquesValue,
+    result: { px: number; py: number }
+  ) {
+    const punta = new TetrahedronGeometry(0.5, 0);
+    punta.applyMatrix4(
+      new Matrix4().makeRotationAxis(
+        new Vector3(1, 0, -1).normalize(),
+        Math.atan(Math.sqrt(2))
+      )
+    );
+    const plane = new BoxGeometry(0.1, value.longitudPunta - 0.1, 0.1);
+    const material = new MeshBasicMaterial({
+      color: 'yellow',
+    });
+
+    const halfZ = value.largo / 2;
+    const halfX = value.ancho / 2;
+
+    if (result.px === 1 && result.py === 1) {
+      const mesh = new Mesh(punta, material);
+      mesh.position.setY(value.alto + value.longitudPunta);
+      const meshLine = new Mesh(plane, material);
+      meshLine.position.setY(value.alto + value.longitudPunta / 2);
+      this.scene.add(meshLine);
+      this.scene.add(mesh);
+      return;
+    }
+
+    const stepX = value.ancho / (result.px - 1);
+    const stepZ = value.largo / (result.py - 1);
+    for (let posZ = -1 * halfZ; posZ < halfZ + stepZ; posZ += stepZ) {
+      for (let posX = -1 * halfX; posX < halfX + stepX; posX += stepX) {
+        const mesh = new Mesh(punta, material);
+        const meshLine = new Mesh(plane, material);
+        mesh.position.setY(value.alto + value.longitudPunta);
+        mesh.position.setZ(posZ);
+        mesh.position.setX(posX);
+
+        meshLine.position.setY(value.alto + value.longitudPunta / 2);
+        meshLine.position.setZ(posZ);
+        meshLine.position.setX(posX);
+        this.scene.add(meshLine);
+        this.scene.add(mesh);
+      }
+    }
+  }
+
+  private readonly addStructure = (
+    item: IProteccionBloquesValue,
+    index: number
+  ) => {
+    const plane = new BoxGeometry(item.ancho, item.alto, item.largo);
     const edges = new EdgesGeometry(plane);
-    this.structure = new LineSegments(
+    this.structures[index] = new LineSegments(
       edges,
       new LineBasicMaterial({ color: 'black' })
     );
-    this.structure.position.set(
-      value.ancho / 2,
-      value.alto / 2,
-      value.largo / 2
-    );
-    this.scene.add(this.structure);
+    const material = new MeshBasicMaterial({
+      color: '#1fc9d0',
+    });
+
+    this.structures[index].position.set(0, item.alto / 2, 0);
+    const mesh = new Mesh(plane, material);
+    mesh.position.set(0, item.alto / 2, 0);
+    this.scene.add(this.structures[index]);
+    this.scene.add(mesh);
     this.renderFn();
-  }
+  };
 
-  public onMouseDown(event: MouseEvent) {
-    event.preventDefault();
-
-    const raycaster = new Raycaster();
-    const mouse = new Vector2();
-    mouse.x = (event.clientX / this.renderer.domElement.clientWidth) * 2 - 1;
-    mouse.y = -(event.clientY / this.renderer.domElement.clientHeight) * 2 + 1;
-    raycaster.setFromCamera(mouse, this.camera);
-  }
-
-  validateField(id: string): boolean {
-    const form = this.form.get(id)!;
+  validateField(id: string, index?: number): boolean {
+    let form = this.form.get(id);
+    if (!isNaN(index!)) form = this.formBloques.controls[index!].get(id);
+    if (!form) return false;
     return form.touched && form.invalid;
+  }
+
+  agregarBloque() {
+    this.formBloques.push(this.proteccionForm.bluidBloques());
+  }
+
+  deleteBloq(index: number) {
+    this.formBloques.removeAt(index);
+    this.structures.splice(index, 1);
   }
 }

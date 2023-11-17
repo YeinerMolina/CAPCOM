@@ -1,8 +1,8 @@
 import { Route } from '@angular/router';
 
-import { RiesgoComponent } from './riesgo/riesgo.component';
 import { HomeComponent } from './home/home.component';
 import { ProteccionContraRayosComponent } from './proteccion-contra-rayos/proteccion-contra-rayos.component';
+import { RiesgoComponent } from './riesgo/riesgo.component';
 
 export const mainRoutes: Route[] = [
   {
