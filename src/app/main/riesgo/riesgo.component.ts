@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigRiskService } from './services/config-riesk.service';
-import { RiesgoFormService } from './services/riesgo-form.service';
 import {
   AbstractControl,
   FormArray,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { DropdownChangeEvent } from 'primeng/dropdown';
 import {
   ICalcularPerdidasResponse,
   ILineasForm,
@@ -15,7 +15,8 @@ import {
   RiesgoForm,
   RiesgoFormValue,
 } from './interfaces/interfaces';
-import { DropdownChangeEvent } from 'primeng/dropdown';
+import { ConfigRiskService } from './services/config-riesk.service';
+import { RiesgoFormService } from './services/riesgo-form.service';
 
 @Component({
   selector: 'app-riesgo',
@@ -25,8 +26,11 @@ import { DropdownChangeEvent } from 'primeng/dropdown';
 export class RiesgoComponent implements OnInit {
   form!: FormGroup<RiesgoForm>;
   visible: boolean = false;
+  visibleResult: boolean = false;
   actualNumber: number = -1;
   temporalFormGroup: ILineasForm = this.formService.buildLineForm();
+  resultados: any[] = [];
+  prevResultados: any[] = [];
 
   get lineasForm(): FormArray<ILineasForm> {
     return this.form.controls.lineas;
@@ -34,7 +38,8 @@ export class RiesgoComponent implements OnInit {
 
   constructor(
     public readonly configService: ConfigRiskService,
-    private readonly formService: RiesgoFormService
+    private readonly formService: RiesgoFormService,
+    private readonly messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +47,14 @@ export class RiesgoComponent implements OnInit {
   }
 
   calcular(): void {
-    if (this.form.invalid) return this.form.markAllAsTouched();
+    if (this.form.invalid) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor llenar todos los campos requeridos',
+      });
+      return this.form.markAllAsTouched();
+    }
     const value = this.form.value as RiesgoFormValue;
 
     const nd = this.caldularNd(value);
@@ -88,39 +100,23 @@ export class RiesgoComponent implements OnInit {
       .reduce((prev, ant) => prev + ant);
 
     const r1 = ra + rb + ru + rv;
-    console.log({
-      value,
-      nd,
-      nm,
-      nl,
-      ni,
-      pta,
-      pb,
-      pa,
-      pc,
-      pm,
-      pv,
-      pw,
-      pu,
-      pz,
-      la,
-      lb,
-      lc,
-      lm,
-      lu,
-      lv,
-      lw,
-      lz,
-      ra: ra / Math.pow(10, -5),
-      rb: rb / Math.pow(10, -5),
-      rc: rc / Math.pow(10, -5),
-      rm: rm / Math.pow(10, -5),
-      ru: ru / Math.pow(10, -5),
-      rv: rv / Math.pow(10, -5),
-      rw: rw / Math.pow(10, -5),
-      rz: rz / Math.pow(10, -5),
-      rt: r1 / Math.pow(10, -5),
-    });
+
+    this.resultados = [
+      {
+        r1: r1 * Math.pow(10, 5),
+        ra: ra * Math.pow(10, 5),
+        rb: rb * Math.pow(10, 5),
+        ru: ru * Math.pow(10, 5),
+        rv: rv * Math.pow(10, 5),
+        tolerancia: Math.pow(10, -5),
+      },
+    ];
+    this.prevResultados = [...this.resultados];
+    this.visibleResult = true;
+  }
+
+  cargarSolucion() {
+    this.resultados = [{}];
   }
 
   checkToggle(id: keyof RiesgoForm) {
@@ -131,7 +127,7 @@ export class RiesgoComponent implements OnInit {
       'restricciones',
     ];
     if (ids.includes(id)) this.form.controls.sinMedidaProteccion.reset();
-    else ids.forEach((id) => this.form.controls[id].reset());
+    else ids.forEach((fieldId) => this.form.controls[fieldId].reset());
   }
 
   checkToggleProteccionLInea(id: keyof LineaFormGroup) {
@@ -142,13 +138,16 @@ export class RiesgoComponent implements OnInit {
     ];
     if (ids.includes(id))
       this.temporalFormGroup.controls.medidasDeProteccion.reset();
-    else ids.forEach((id) => this.temporalFormGroup.controls[id].reset());
+    else
+      ids.forEach((fieldId) =>
+        this.temporalFormGroup.controls[fieldId].reset()
+      );
   }
 
   checkToggleIncendio(id: keyof RiesgoForm) {
     const ids: (keyof RiesgoForm)[] = ['medidasIncendioP', 'medidasIncendioS'];
     if (ids.includes(id)) this.form.controls.sinMedidasIncendio.reset();
-    else ids.forEach((id) => this.form.controls[id].reset());
+    else ids.forEach((fieldId) => this.form.controls[fieldId].reset());
   }
 
   validateProteccion(id: string) {

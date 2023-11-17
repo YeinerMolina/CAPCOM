@@ -4,7 +4,7 @@
       <h2>DETERMINACIÓN DEL NIVEL DE RIESGO</h2>
     </div>
   </div>
-
+  <p-toast></p-toast>
   <p-card>
     <div class="container_form">
       <p-tabView>
@@ -577,4 +577,91 @@
   </div>
   <p-button label="Guardar" [draggable]="false" class="flex justify-content-end pt-4" styleClass="p-button-outlined"
     (onClick)="guardarLinea()"></p-button>
+</p-dialog>
+
+<p-dialog header="Resultados" [(visible)]="visibleResult" [style]="{ width: '60vw' }">
+  <div class="flex justify-content-start flex-column">
+    <span>
+      Valores de las componentes relevantes para el riesgo R1 (x10<sup>-5</sup>)
+    </span>
+    <p-table [value]=" resultados" class="pt-2">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Tipo de daño</th>
+          <th>Simbolo</th>
+          <th>Valor</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-resultado>
+        <tr>
+          <td rowspan="2">
+            D1 - Lesiones
+          </td>
+          <td>
+            R<sub>a</sub>
+          </td>
+          <td>
+            {{
+            resultado.ra ?? 0 | number: '1.0-3'
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            R<sub>u</sub>
+          </td>
+          <td>
+            {{
+            resultado.ru ?? 0 | number: '1.0-3'
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="2">
+            D2 - Daños físicos
+          </td>
+          <td>
+            R<sub>B</sub>
+          </td>
+          <td>
+            {{
+            resultado.rb ?? 0 | number: '1.0-3'
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            R<sub>v</sub>
+          </td>
+          <td>
+            {{
+            resultado.rv ?? 0 | number: '1.0-3'
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            Total
+          </td>
+          <td>
+            {{
+            resultado.r1 ?? 0 | number: '1.0-3'
+            }}
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="summary">
+        <span *ngIf="resultados[0]?.r1 > resultados[0]?.tolerancia">
+          R<sub>1</sub> > R<sub>T</sub>: Es necesaria la protección contra el rayo
+        </span>
+        <span *ngIf="!(resultados[0]?.r1 > resultados[0]?.tolerancia)">
+          R<sub>T</sub> > R<sub>1</sub>: No es necesaria la protección contra el rayo
+        </span>
+      </ng-template>
+    </p-table>
+    <p-button label="Cargar Solución" (onClick)="cargarSolucion()">
+
+    </p-button>
+  </div>
 </p-dialog>
