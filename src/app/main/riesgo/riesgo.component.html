@@ -11,7 +11,7 @@
         <p-tabPanel header="Estructura">
           <ng-container *ngTemplateOutlet="estructura"></ng-container>
         </p-tabPanel>
-        <p-tabPanel header="Lineas conectadas">
+        <p-tabPanel header="Lineas instaladas">
           <ng-container *ngTemplateOutlet="lineas"></ng-container>
         </p-tabPanel>
         <p-tabPanel header="Medidas de protección adicionales">
@@ -20,8 +20,9 @@
       </p-tabView>
     </div>
   </p-card>
-  <div class="flex w-full justify-content-end pr-3 pt-2">
-    <p-button (onClick)="calcular()" label="Análizar"></p-button>
+  <div class="flex w-full flex-row justify-content-end pr-3 pt-2">
+    <p-button (onClick)="subirExcel()" styleClass="p-button-outlined" label="Cargar datos desde Excel"></p-button>
+    <p-button (onClick)="calcular()" class="pl-2" label="Análizar"></p-button>
   </div>
 </div>
 
@@ -53,7 +54,7 @@
             Campo invalido
           </small>
         </div>
-        <div class="field col-6">
+        <div class="field col-5">
           <div class="p-inputgroup">
             <div class="p-float-label">
               <p-inputNumber formControlName="ancho" [useGrouping]="false"></p-inputNumber>
@@ -65,11 +66,11 @@
             Campo invalido
           </small>
         </div>
-        <div class="field col-6">
+        <div class="field col-7">
           <div class="p-inputgroup">
             <div class="p-float-label">
               <p-inputNumber formControlName="areaRecoleccion" [useGrouping]="false"></p-inputNumber>
-              <label>Área de recolección</label>
+              <label>Área de recolección (opcional)</label>
             </div>
             <span class="p-inputgroup-addon">m</span>
           </div>
@@ -145,30 +146,21 @@
       <p-panel header="Medidas de protección adicionales">
         <div class="flex flex-column gap-2">
           <div class="flex flex-row justify-content-between h-full gap-2">
-            Sin medidas de protección
-            <p-checkbox (onChange)="checkToggle('sinMedidaProteccion')" formControlName="sinMedidaProteccion"
-              [binary]="true"></p-checkbox>
-          </div>
-          <div class="flex flex-row justify-content-between h-full gap-2">
             Avisos de peligro
-            <p-checkbox (onChange)="checkToggle('avisosDeAdvertencia')" formControlName="avisosDeAdvertencia"
-              [binary]="true"></p-checkbox>
+            <p-checkbox formControlName="avisosDeAdvertencia" [binary]="true"></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Aislamiento eléctrico de partes expuestas
-            <p-checkbox (onChange)="checkToggle('aislamientoElectrico')" formControlName="aislamientoElectrico"
-              [binary]="true"></p-checkbox>
+            <p-checkbox formControlName="aislamientoElectrico" [binary]="true"></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Equipotencialización efectiva del terreno
-            <p-checkbox (onChange)="checkToggle('equipotencializacion')" formControlName="equipotencializacion"
-              [binary]="true"></p-checkbox>
+            <p-checkbox formControlName="equipotencializacion" [binary]="true"></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Restricciones físicas o de uso de armadura metálica del edificio
             como conducto de bajada
-            <p-checkbox (onChange)="checkToggle('restricciones')" formControlName="restricciones"
-              [binary]="true"></p-checkbox>
+            <p-checkbox formControlName="restricciones" [binary]="true"></p-checkbox>
           </div>
         </div>
       </p-panel>
@@ -218,7 +210,7 @@
       <tr>
         <th>Tipo de línea</th>
         <th>Longitud</th>
-        <th>Caracteristicas de la línea</th>
+        <th>Apantallamiento</th>
         <th>Factor de la instalación</th>
         <th>Factor medioambiental</th>
         <th>Nivel de protección DPS</th>
@@ -311,22 +303,15 @@
         <p-panel header="Medidas de protección contra incendios">
           <div class="flex flex-column gap-2">
             <div class="flex flex-row justify-content-between h-full gap-2">
-              Sin medidas de protección
-              <p-checkbox (onChange)="checkToggleIncendio('sinMedidasIncendio')" formControlName="sinMedidasIncendio"
-                [binary]="true"></p-checkbox>
-            </div>
-            <div class="flex flex-row justify-content-between h-full gap-2">
               Extintores, Instalaciones fijas de extinsión,manuales,
               instalaciones manuales de alarma, tomas de agua, compartimentos
               aprueba de agua, vías de evacuación.
-              <p-checkbox (onChange)="checkToggleIncendio('medidasIncendioP')" formControlName="medidasIncendioP"
-                [binary]="true"></p-checkbox>
+              <p-checkbox formControlName="medidasIncendioP" [binary]="true"></p-checkbox>
             </div>
             <div class="flex flex-row justify-content-between h-full gap-2">
               Instalaciones fijas de extención automáticas, instalaciones
               automáticas de alarma
-              <p-checkbox (onChange)="checkToggleIncendio('medidasIncendioS')" formControlName="medidasIncendioS"
-                [binary]="true"></p-checkbox>
+              <p-checkbox formControlName="medidasIncendioS" [binary]="true"></p-checkbox>
             </div>
           </div>
         </p-panel>
@@ -365,7 +350,7 @@
       </div>
     </div>
     <div class="col-3">
-      <div class="field">
+      <div class="field pb-2">
         <div class="flex-auto">
           <span class="p-float-label">
             <p-dropdown class="w-full" formControlName="riesgoFuego" [style]="{ minWidth: '100%', maxWidth: '100%' }"
@@ -426,11 +411,10 @@
       </div>
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }"
-            placeholder="Caracteristicas de la línea" [options]="configService.catecteristicaLinea" optionLabel="name"
-            optionValue="value" formControlName="caracteristicasLinea"
-            (onChange)="checkValidationTemporalArray($event)"></p-dropdown>
-          <label> Caracteristicas de la línea </label>
+          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Apantallamiento"
+            [options]="configService.catecteristicaLinea" optionLabel="name" optionValue="value"
+            formControlName="caracteristicasLinea" (onChange)="checkValidationTemporalArray($event)"></p-dropdown>
+          <label> Apantallamiento </label>
         </span>
         <small class="p-error" *ngIf="validateField('caracteristicasLinea', temporalFormGroup)">
           Campo invalido
@@ -552,24 +536,16 @@
       <p-panel header="Medidas de protección">
         <div class="flex flex-column gap-2">
           <div class="flex flex-row justify-content-between h-full gap-2">
-            Sin medidas de protección
-            <p-checkbox (onChange)="checkToggleProteccionLInea('medidasDeProteccion')"
-              formControlName="medidasDeProteccion" [binary]="true"></p-checkbox>
-          </div>
-          <div class="flex flex-row justify-content-between h-full gap-2">
             Avisos
-            <p-checkbox (onChange)="checkToggleProteccionLInea('avisos')" formControlName="avisos"
-              [binary]="true"></p-checkbox>
+            <p-checkbox formControlName="avisos" [binary]="true"></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Aislamiento eléctrico de partes expuestas
-            <p-checkbox (onChange)="checkToggleProteccionLInea('aislamientoElectrico')"
-              formControlName="aislamientoElectrico" [binary]="true"></p-checkbox>
+            <p-checkbox formControlName="aislamientoElectrico" [binary]="true"></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Restricciones físicas
-            <p-checkbox (onChange)="checkToggleProteccionLInea('restriccionFisica')" formControlName="restriccionFisica"
-              [binary]="true"></p-checkbox>
+            <p-checkbox formControlName="restriccionFisica" [binary]="true"></p-checkbox>
           </div>
         </div>
       </p-panel>
@@ -579,89 +555,161 @@
     (onClick)="guardarLinea()"></p-button>
 </p-dialog>
 
-<p-dialog header="Resultados" [(visible)]="visibleResult" [style]="{ width: '60vw' }">
+<p-dialog header="Resultados" [(visible)]="visibleResult" [style]="{ width: '60vw' }" (onHide)="cleanResults()">
   <div class="flex justify-content-start flex-column">
-    <span>
-      Valores de las componentes relevantes para el riesgo R1 (x10<sup>-5</sup>)
-    </span>
-    <p-table [value]=" resultados" class="pt-2">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Tipo de daño</th>
-          <th>Simbolo</th>
-          <th>Valor</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-resultado>
-        <tr>
-          <td rowspan="2">
-            D1 - Lesiones
-          </td>
-          <td>
-            R<sub>a</sub>
-          </td>
-          <td>
-            {{
-            resultado.ra ?? 0 | number: '1.0-3'
-            }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            R<sub>u</sub>
-          </td>
-          <td>
-            {{
-            resultado.ru ?? 0 | number: '1.0-3'
-            }}
-          </td>
-        </tr>
-        <tr>
-          <td rowspan="2">
-            D2 - Daños físicos
-          </td>
-          <td>
-            R<sub>B</sub>
-          </td>
-          <td>
-            {{
-            resultado.rb ?? 0 | number: '1.0-3'
-            }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            R<sub>v</sub>
-          </td>
-          <td>
-            {{
-            resultado.rv ?? 0 | number: '1.0-3'
-            }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            Total
-          </td>
-          <td>
-            {{
-            resultado.r1 ?? 0 | number: '1.0-3'
-            }}
-          </td>
-        </tr>
-      </ng-template>
 
-      <ng-template pTemplate="summary">
-        <span *ngIf="resultados[0]?.r1 > resultados[0]?.tolerancia">
-          R<sub>1</sub> > R<sub>T</sub>: Es necesaria la protección contra el rayo
-        </span>
-        <span *ngIf="!(resultados[0]?.r1 > resultados[0]?.tolerancia)">
-          R<sub>T</sub> > R<sub>1</sub>: No es necesaria la protección contra el rayo
-        </span>
-      </ng-template>
-    </p-table>
-    <p-button label="Cargar Solución" (onClick)="cargarSolucion()">
+    <div class="flex flex-row w-full">
+      <div class="flex w-6 flex-column">
 
-    </p-button>
+        <span>
+          Valores de las componentes relevantes para el riesgo R1 (x10<sup>-5</sup>)
+        </span>
+        <div class=" flex w-full table_result_container">
+          <p-table [value]="[selectedResult]" class="pt-2">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="text-center">Tipo de daño</th>
+                <th class="text-center">Simbolo</th>
+                <th class="text-center">Valor</th>
+                <th class="text-center">Contribución (%)</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-resultado>
+              <tr>
+                <td rowspan="2">
+                  D1 - Lesiones
+                </td>
+                <td>
+                  R<sub>a</sub>
+                </td>
+                <td>
+                  {{
+                  resultado.ra ?? 0 | number: '1.0-3'
+                  }}
+                </td>
+                <td>
+                  {{
+                  resultado.raContribucion ?? 0 | number: '1.0-2'
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  R<sub>u</sub>
+                </td>
+                <td>
+                  {{
+                  resultado.ru ?? 0 | number: '1.0-3'
+                  }}
+                </td>
+                <td>
+                  {{
+                  resultado.ruContribucion ?? 0 | number: '1.0-2'
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="2">
+                  D2 - Daños físicos
+                </td>
+                <td>
+                  R<sub>B</sub>
+                </td>
+                <td>
+                  {{
+                  resultado.rb ?? 0 | number: '1.0-3'
+                  }}
+                </td>
+                <td>
+                  {{
+                  resultado.rbContribucion ?? 0 | number: '1.0-2'
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  R<sub>v</sub>
+                </td>
+                <td>
+                  {{
+                  resultado.rv ?? 0 | number: '1.0-3'
+                  }}
+                </td>
+                <td>
+                  {{
+                  resultado.rvContribucion ?? 0 | number: '1.0-2'
+                  }}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  Total
+                </td>
+                <td>
+                  {{
+                  resultado.r1 ?? 0 | number: '1.0-3'
+                  }}
+                </td>
+                <td>
+                  100
+                </td>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+              <ng-container *ngIf="verificarResultado(); then proteccionLabel; else noProteccionLabel"></ng-container>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="flex w-6 flex-column px-5">
+        <h2 class="w-full text-center pb-4">
+          Sugerencias
+        </h2>
+        <div class="px-5">
+          <ul *ngIf="selectedResult?.sugerencias?.length">
+            <li *ngIf="selectedResult?.sugerencias?.includes('DPS_LINEA')">
+              Instalación de un DPS en las líneas:
+              <ul class="pl-5">
+                <li *ngFor="let item of selectedResult.value.lineas; let i = index">
+                  Linea {{ i+1 + ' - Clase ' + configService.getLabel(item.proteccionDps, "nivelProteccionRayo") }}
+                </li>
+              </ul>
+            </li>
+            <li *ngIf="selectedResult?.sugerencias?.includes('SPCR')">
+              Instalación de un SPCR de clase {{ configService.getLabel(selectedResult.value.proteccionAEstructura, "nivelProteccion") }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p-paginator *ngIf="resultados.length > 1" class="w-full" [first]="first ?? 0" [rows]="rows ?? 10"
+      (onPageChange)="cambiarResultado($event)" [totalRecords]="totalRecords">
+    </p-paginator>
+    <div class="flex justify-content-end">
+      <p-button styleClass="p-button-outlined" label="Mostrar sugerencias" (onClick)="cargarSolucion()"></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<ng-template #proteccionLabel>
+  <span>
+    R<sub>1</sub> > R<sub>T</sub>: Es necesaria la protección contra el rayo
+  </span>
+</ng-template>
+<ng-template #noProteccionLabel>
+  <span>
+    R<sub>1</sub>
+    < R<sub>T</sub>: No es necesaria la protección contra el rayo
+  </span>
+</ng-template>
+
+<p-dialog header="Cargar archivo excel" [(visible)]="showFileModal" [style]="{ width: '30vw' }" (onHide)="clearFile()">
+  <div class="flex w-full justify-content-around">
+    <p-fileUpload #files chooseIcon="pi pi-upload" mode="basic" accept=".xlsx" (onSelect)="onFileChange($event)"
+      chooseLabel="Cargar archivo">
+    </p-fileUpload>
+    <p-button styleClass="p-button-outlined" label="Descargar formato del archivo" icon="pi pi-download" (onClick)="downloaExcel()"></p-button>
   </div>
 </p-dialog>

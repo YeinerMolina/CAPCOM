@@ -92,10 +92,6 @@ export class ConfigRiskService {
       name: 'Estructura con dispositivo captador de nivel I, con armaduras metálicas continuas o armaduras de hormigón actuando como conductores naturales de bajada',
       value: 0.01,
     },
-    {
-      name: '',
-      value: 0.001,
-    },
   ];
 
   tipoTransformador: IDropDownConfigNumber[] = [

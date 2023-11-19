@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { PrimeNgModule } from '../shared/prime-ng/prime-ng.module';
 import { HomeComponent } from './home/home.component';
@@ -24,6 +23,5 @@ import { RiesgoComponent } from './riesgo/riesgo.component';
     FormsModule,
     ButtonModule,
   ],
-  providers: [MessageService],
 })
 export class MainModule {}

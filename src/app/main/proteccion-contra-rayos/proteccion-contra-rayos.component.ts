@@ -54,6 +54,7 @@ export class ProteccionContraRayosComponent
   private protectionSphere!: Mesh;
   private structures: LineSegments[] = [];
   activeIndex: number = 1;
+  resultadosValue: any[] = []
 
   public fieldOfView: number = 60;
   public nearClippingPane: number = 1;
@@ -100,6 +101,7 @@ export class ProteccionContraRayosComponent
 
   calcular() {
     if (this.form.invalid) return this.form.markAllAsTouched();
+    this.resultadosValue = []
     const value = this.form.value as IProteccionFormValue;
     const radio = value.nivelRiesgo;
     const values = value.bloques.map((item) => {
@@ -118,6 +120,14 @@ export class ProteccionContraRayosComponent
         py = 1;
         px = 1;
       }
+
+      this.resultadosValue.push({
+        separacion: p,
+        total: py*px,
+        totalx: px,
+        totaly: py,
+      })
+
       return {
         px,
         py,
@@ -126,7 +136,6 @@ export class ProteccionContraRayosComponent
     this.limpiarPuntas();
     value.bloques.forEach((item, index) => {
       this.agregarPuntas(item, values[index]);
-      // this.addSphere(item, value.nivelRiesgo);
       this.scene.updateMatrix();
     });
     console.log({

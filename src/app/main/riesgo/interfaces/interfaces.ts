@@ -20,7 +20,6 @@ export interface RiesgoForm {
   nPersonasEstructura: FormControl<number | null>;
   nHoraPersonas: FormControl<number | null>;
 
-  sinMedidasIncendio: FormControl<boolean | null>;
   medidasIncendioP: FormControl<boolean | null>;
   medidasIncendioS: FormControl<boolean | null>;
 
@@ -29,7 +28,6 @@ export interface RiesgoForm {
   normativaDPS: FormControl<boolean | null>;
   dpsEntrada: FormControl<boolean | null>;
 
-  sinMedidaProteccion: FormControl<boolean>;
   aislamientoElectrico: FormControl<boolean>;
   equipotencializacion: FormControl<boolean>;
   avisosDeAdvertencia: FormControl<boolean>;
@@ -54,7 +52,6 @@ export interface LineaFormGroup {
   tensionMinima: FormControl<number | null>;
   resistenciaBlindaje: FormControl<number | null>;
 
-  medidasDeProteccion: FormControl<boolean | null>;
   avisos: FormControl<boolean | null>;
   aislamientoElectrico: FormControl<boolean | null>;
   restriccionFisica: FormControl<boolean | null>;
@@ -72,7 +69,7 @@ export interface RiesgoFormValue {
   situacionRelativa: number;
   tipoAmbiente: number;
   densidadDescargasAtmosféricas: number;
-  sinMedidaProteccion: boolean;
+
   aislamientoElectrico: boolean;
   equipotencializacion: boolean;
   avisosDeAdvertencia: boolean;
@@ -87,7 +84,6 @@ export interface RiesgoFormValue {
   nPersonasEstructura: number;
   nHoraPersonas: number;
 
-  sinMedidasIncendio: boolean;
   medidasIncendioP: boolean;
   medidasIncendioS: boolean;
 
@@ -107,10 +103,9 @@ export interface ILineasValue {
   longitud: number;
   caracteristicasLinea: number;
   proteccionDps: number;
-  tensionMinina: number;
+  tensionMinima: number;
   resistenciaBlindaje: number;
 
-  medidasDeProteccion: boolean;
   avisos: boolean;
   aislamientoElectrico: boolean;
   restriccionFisica: boolean;
@@ -129,4 +124,41 @@ export interface ICalcularPerdidasResponse {
   lm: number;
   lw: number;
   lz: number;
+}
+
+export interface ResultMin {
+  r1: number;
+  ra: number;
+  rb: number;
+  ru: number;
+  rv: number;
+  tolerancia: number;
+}
+
+export interface IResult extends ResultMin {
+  raContribucion: number;
+  rbContribucion: number;
+  ruContribucion: number;
+  rvContribucion: number;
+  sugerencias: string[];
+  value: RiesgoFormValue;
+}
+
+export interface ReadExcelData {
+  B: string;
+  C: number;
+  E: number;
+  F: string;
+  G: number;
+  I: string;
+  J: number;
+}
+
+export interface ReadExcelResult {
+  descripcion: string;
+  valor: number;
+}
+
+export interface LineasExcelValues {
+  [key: number]: ReadExcelResult[];
 }

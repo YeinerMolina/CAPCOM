@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ILineasForm, RiesgoForm } from '../interfaces/interfaces';
 
 @Injectable({
@@ -24,17 +24,15 @@ export class RiesgoFormService {
       nPersonasEstructura: [null, Validators.required],
       nHoraPersonas: [null, Validators.required],
 
-      sinMedidasIncendio: [false],
       medidasIncendioP: [false],
       medidasIncendioS: [false],
 
       proteccionEstructura: [null, Validators.required],
-      proteccionAEstructura: [null, Validators.required],
+      proteccionAEstructura: [null],
       normativaDPS: [false, Validators.required],
       dpsEntrada: [false, Validators.required],
 
       // Probailidad seres vivos
-      sinMedidaProteccion: [false],
       aislamientoElectrico: [false],
       equipotencializacion: [false],
       avisosDeAdvertencia: [false],
@@ -60,7 +58,6 @@ export class RiesgoFormService {
       resistenciaBlindaje: [null],
 
       //medidasProteccion
-      medidasDeProteccion: [false],
       avisos: [false],
       aislamientoElectrico: [false],
       restriccionFisica: [false],

@@ -46,6 +46,13 @@ p-table {
   }
 }
 
+.table_result_container {
+  p-table {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
 ::ng-deep {
   .p-inputnumber {
     width: 100%;
