@@ -25,15 +25,9 @@
     <div class="field pt-3 flex w-3">
       <div class="flex-auto">
         <span class="p-float-label">
-          <p-dropdown
-            class="w-full"
-            formControlName="nivelRiesgo"
-            [style]="{ minWidth: '100%', maxWidth: '100%' }"
-            [options]="proteccionForm.nivelRiesgo"
-            optionLabel="name"
-            optionValue="value"
-            placeholder="Nivel de protección"
-          ></p-dropdown>
+          <p-dropdown class="w-full" formControlName="nivelRiesgo" [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            [options]="proteccionForm.nivelRiesgo" optionLabel="name" optionValue="value"
+            placeholder="Nivel de protección"></p-dropdown>
           <label> Nivel de protección </label>
         </span>
         <small class="p-error" *ngIf="validateField('nivelRiesgo')">
@@ -41,15 +35,13 @@
         </small>
       </div>
     </div>
-    <div
-      class="col-12 flex flex-column justify-content-center align-content-center"
-    >
+    <div class="col-12 flex flex-column justify-content-center align-content-center">
       <p-table formArrayName="bloques" [value]="formBloques.controls">
         <ng-template pTemplate="header">
           <tr>
-            <th>Altura</th>
-            <th>Largo</th>
-            <th>Ancho</th>
+            <th>Altura (H)</th>
+            <th>Largo (L)</th>
+            <th>Ancho (W)</th>
             <th>Longitud de la punta de captación</th>
           </tr>
         </ng-template>
@@ -57,12 +49,8 @@
           <tr [formGroup]="form">
             <td class="field pt-3">
               <div class="p-inputgroup">
-                <p-inputNumber
-                  mode="decimal"
-                  [maxFractionDigits]="2"
-                  formControlName="alto"
-                  [useGrouping]="false"
-                ></p-inputNumber>
+                <p-inputNumber mode="decimal" [maxFractionDigits]="2" formControlName="alto"
+                  [useGrouping]="false"></p-inputNumber>
                 <span class="p-inputgroup-addon">m</span>
               </div>
               <small class="p-error" *ngIf="validateField('alto', rowIndex)">
@@ -71,12 +59,8 @@
             </td>
             <td class="field pt-3">
               <div class="p-inputgroup">
-                <p-inputNumber
-                  mode="decimal"
-                  [maxFractionDigits]="2"
-                  formControlName="largo"
-                  [useGrouping]="false"
-                ></p-inputNumber>
+                <p-inputNumber mode="decimal" [maxFractionDigits]="2" formControlName="largo"
+                  [useGrouping]="false"></p-inputNumber>
                 <span class="p-inputgroup-addon">m</span>
               </div>
               <small class="p-error" *ngIf="validateField('largo', rowIndex)">
@@ -85,12 +69,8 @@
             </td>
             <td class="field pt-3">
               <div class="p-inputgroup">
-                <p-inputNumber
-                  mode="decimal"
-                  [maxFractionDigits]="2"
-                  formControlName="ancho"
-                  [useGrouping]="false"
-                ></p-inputNumber>
+                <p-inputNumber mode="decimal" [maxFractionDigits]="2" formControlName="ancho"
+                  [useGrouping]="false"></p-inputNumber>
                 <span class="p-inputgroup-addon">m</span>
               </div>
               <small class="p-error" *ngIf="validateField('ancho', rowIndex)">
@@ -99,18 +79,11 @@
             </td>
             <td class="field pt-3">
               <div class="p-inputgroup">
-                <p-inputNumber
-                  mode="decimal"
-                  [maxFractionDigits]="2"
-                  formControlName="longitudPunta"
-                  [useGrouping]="false"
-                ></p-inputNumber>
+                <p-inputNumber mode="decimal" [maxFractionDigits]="2" formControlName="longitudPunta"
+                  [useGrouping]="false"></p-inputNumber>
                 <span class="p-inputgroup-addon">m</span>
               </div>
-              <small
-                class="p-error"
-                *ngIf="validateField('longitudPunta', rowIndex)"
-              >
+              <small class="p-error" *ngIf="validateField('longitudPunta', rowIndex)">
                 Campo invalido
               </small>
             </td>
@@ -126,35 +99,36 @@
 </ng-template>
 
 <ng-template #canvasTemplate>
-  <canvas class="w-full max-h-30rem h-full" #canvas></canvas>
+  <h3 class="flex w-full justify-content-center py-3">Representación gráfica</h3>
+  <canvas class="w-full max-h-22rem h-full" #canvas></canvas>
 </ng-template>
 
 <ng-template #resultados>
-    <p-table [value]="resultadosValue" class="pb-3">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Separación mínima entre puntas captadoras (m)</th>
-          <th>Total de puntas sugeridas</th>
-          <th>Cantidad de puntas sugeridas (ancho)</th>
-          <th>Cantidad de puntas sugeridas (largo)</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-element>
-        <tr>
-          <td>
-            {{element.separacion | number: '1.0-3'}}
-          </td>
-          <td>
-            {{element.total}}
-          </td>
-          <td>
-            {{element.totalx}}
-          </td>
-          <td>
-            {{element.totaly}}
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+  <p-table [value]="resultadosValue" class="pb-3">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Distancia máxima entre puntas captadoras (m)</th>
+        <th>Total de puntas sugeridas</th>
+        <th>Cantidad de puntas sugeridas (ancho)</th>
+        <th>Cantidad de puntas sugeridas (largo)</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-element>
+      <tr>
+        <td>
+          {{element.separacion | number: '1.0-3'}}
+        </td>
+        <td>
+          {{element.total}}
+        </td>
+        <td>
+          {{element.totalx}}
+        </td>
+        <td>
+          {{element.totaly}}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 
 </ng-template>

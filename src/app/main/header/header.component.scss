@@ -5,10 +5,7 @@
   justify-content: space-between;
   padding: 20px 120px;
 }
-.logo {
-  font-size: x-large;
-  font-weight: bold;
-}
+
 .manu {
   gap: 40px;
   display: flex;
@@ -20,4 +17,10 @@
   padding: 5px;
   align-items: center;
   cursor: pointer;
+  font-size: medium;
+}
+
+.logo {
+  font-size: xx-large;
+  font-weight: bold;
 }

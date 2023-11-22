@@ -1,6 +1,4 @@
-import { debounceTime } from 'rxjs';
 import {
-  AxesHelper,
   BoxGeometry,
   EdgesGeometry,
   GridHelper,
@@ -54,7 +52,7 @@ export class ProteccionContraRayosComponent
   private protectionSphere!: Mesh;
   private structures: LineSegments[] = [];
   activeIndex: number = 1;
-  resultadosValue: any[] = []
+  resultadosValue: any[] = [];
 
   public fieldOfView: number = 60;
   public nearClippingPane: number = 1;
@@ -74,15 +72,6 @@ export class ProteccionContraRayosComponent
   constructor(public readonly proteccionForm: ProteccionFormService) {}
 
   ngOnInit(): void {
-    this.form.controls.bloques.valueChanges.pipe(debounceTime(300)).subscribe({
-      next: (value) => {
-        this.clearStructures();
-        this.limpiarPuntas();
-        value.forEach((item, index) => {
-          this.addStructure(item as IProteccionBloquesValue, index);
-        });
-      },
-    });
     this.formBloques.push(this.proteccionForm.bluidBloques());
   }
 
@@ -101,7 +90,7 @@ export class ProteccionContraRayosComponent
 
   calcular() {
     if (this.form.invalid) return this.form.markAllAsTouched();
-    this.resultadosValue = []
+    this.resultadosValue = [];
     const value = this.form.value as IProteccionFormValue;
     const radio = value.nivelRiesgo;
     const values = value.bloques.map((item) => {
@@ -121,12 +110,15 @@ export class ProteccionContraRayosComponent
         px = 1;
       }
 
+      if (item.largo / py < p) py += 1;
+      if (item.ancho / px < p) px += 1;
+
       this.resultadosValue.push({
         separacion: p,
-        total: py*px,
+        total: py * px,
         totalx: px,
         totaly: py,
-      })
+      });
 
       return {
         px,
@@ -134,28 +126,29 @@ export class ProteccionContraRayosComponent
       };
     });
     this.limpiarPuntas();
+
+    this.clearStructures();
+    this.limpiarPuntas();
     value.bloques.forEach((item, index) => {
+      this.addStructure(item, index);
       this.agregarPuntas(item, values[index]);
-      this.scene.updateMatrix();
     });
-    console.log({
-      values,
-    });
+    this.renderFn();
   }
   private limpiarPuntas() {
     const puntas = this.scene.children.filter(
-      (item) => (item as Mesh).geometry instanceof TetrahedronGeometry
+      (item) =>
+        (item as Mesh).geometry instanceof TetrahedronGeometry ||
+        (item as Mesh).geometry instanceof BoxGeometry
     );
     puntas.forEach((punta) => this.scene.remove(punta));
   }
 
   private clearStructures(): void {
     this.scene.children
-      .filter(
-        (item) =>
-          (item as Mesh).geometry instanceof EdgesGeometry ||
-          (item as Mesh).geometry instanceof BoxGeometry
-      )
+      .filter((item) => {
+        return (item as Mesh).geometry instanceof EdgesGeometry; //||
+      })
       .forEach((item) => {
         this.scene.remove(item);
       });
@@ -221,9 +214,7 @@ export class ProteccionContraRayosComponent
 
   private createScene() {
     this.scene = new Scene();
-    const axesHelper = new AxesHelper(200);
     const gridHelper = new GridHelper(200, 200);
-    this.scene.add(axesHelper);
     this.scene.add(gridHelper);
   }
 
@@ -238,6 +229,14 @@ export class ProteccionContraRayosComponent
     this.protectionSphere.position.y = sphereRadius;
 
     this.scene.add(this.protectionSphere);
+  }
+
+  private clearSphere(): void {
+    this.scene.children
+      .filter((item) => (item as Mesh).geometry instanceof SphereGeometry)
+      .forEach((item) => {
+        this.scene.remove(item);
+      });
   }
 
   private agregarPuntas(

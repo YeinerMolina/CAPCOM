@@ -11,7 +11,7 @@
         <p-tabPanel header="Estructura">
           <ng-container *ngTemplateOutlet="estructura"></ng-container>
         </p-tabPanel>
-        <p-tabPanel header="Lineas instaladas">
+        <p-tabPanel header="Líneas instaladas">
           <ng-container *ngTemplateOutlet="lineas"></ng-container>
         </p-tabPanel>
         <p-tabPanel header="Medidas de protección adicionales">
@@ -22,7 +22,7 @@
   </p-card>
   <div class="flex w-full flex-row justify-content-end pr-3 pt-2">
     <p-button (onClick)="subirExcel()" styleClass="p-button-outlined" label="Cargar datos desde Excel"></p-button>
-    <p-button (onClick)="calcular()" class="pl-2" label="Análizar"></p-button>
+    <p-button (onClick)="calcular()" class="pl-2" label="Analizar"></p-button>
   </div>
 </div>
 
@@ -215,7 +215,7 @@
         <th>Factor medioambiental</th>
         <th>Nivel de protección DPS</th>
         <th>Tensión soportada [kV]</th>
-        <th>Medidas de proteccionón</th>
+        <th>Medidas de protección</th>
         <th>Acción</th>
       </tr>
     </ng-template>
@@ -303,7 +303,7 @@
         <p-panel header="Medidas de protección contra incendios">
           <div class="flex flex-column gap-2">
             <div class="flex flex-row justify-content-between h-full gap-2">
-              Extintores, Instalaciones fijas de extinsión,manuales,
+              Extintores, instalaciones fijas de extinción,manuales,
               instalaciones manuales de alarma, tomas de agua, compartimentos
               aprueba de agua, vías de evacuación.
               <p-checkbox formControlName="medidasIncendioP" [binary]="true"></p-checkbox>
@@ -381,15 +381,15 @@
   </div>
 </ng-template>
 
-<p-dialog header="Editar linea" [(visible)]="visible" [style]="{ width: '80vw' }" (onHide)="cerrar()">
+<p-dialog header="Editar línea" [(visible)]="visible" [style]="{ width: '80vw' }" (onHide)="cerrar()">
   <div [formGroup]="temporalFormGroup" class="grid">
     <div class="col-3">
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Tipo de linea"
+          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Tipo de línea"
             [options]="configService.factorTipoLinea" optionLabel="name" optionValue="value"
             formControlName="tipoLinea"></p-dropdown>
-          <label> Tipo de linea </label>
+          <label> Tipo de línea </label>
         </span>
         <small class="p-error" *ngIf="validateField('tipoLinea', temporalFormGroup)">
           Campo invalido
@@ -677,7 +677,8 @@
               </ul>
             </li>
             <li *ngIf="selectedResult?.sugerencias?.includes('SPCR')">
-              Instalación de un SPCR de clase {{ configService.getLabel(selectedResult.value.proteccionAEstructura, "nivelProteccion") }}
+              Instalación de un SPCR de clase {{ configService.getLabel(selectedResult.value.proteccionAEstructura,
+              "nivelProteccion") }}
             </li>
           </ul>
         </div>
@@ -710,6 +711,7 @@
     <p-fileUpload #files chooseIcon="pi pi-upload" mode="basic" accept=".xlsx" (onSelect)="onFileChange($event)"
       chooseLabel="Cargar archivo">
     </p-fileUpload>
-    <p-button styleClass="p-button-outlined" label="Descargar formato del archivo" icon="pi pi-download" (onClick)="downloaExcel()"></p-button>
+    <p-button styleClass="p-button-outlined" label="Descargar formato del archivo" icon="pi pi-download"
+      (onClick)="downloaExcel()"></p-button>
   </div>
 </p-dialog>
