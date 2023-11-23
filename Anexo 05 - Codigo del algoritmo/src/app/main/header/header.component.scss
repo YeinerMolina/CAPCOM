@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  padding: 20px 120px;
+}
+
+.manu {
+  gap: 40px;
+  display: flex;
+  flex-direction: row;
+}
+
+.manu_item {
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  cursor: pointer;
+  font-size: medium;
+}
+
+.logo {
+  font-size: xx-large;
+  font-weight: bold;
+}

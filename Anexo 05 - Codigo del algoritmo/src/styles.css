@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+* {
+  font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-size: 12.5px;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+}
+
+.p-dropdown-item.p-ripple {
+  white-space: normal;
+}
