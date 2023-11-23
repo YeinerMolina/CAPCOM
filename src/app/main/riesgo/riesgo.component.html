@@ -21,7 +21,11 @@
     </div>
   </p-card>
   <div class="flex w-full flex-row justify-content-end pr-3 pt-2">
-    <p-button (onClick)="subirExcel()" styleClass="p-button-outlined" label="Cargar datos desde Excel"></p-button>
+    <p-button
+      (onClick)="subirExcel()"
+      styleClass="p-button-outlined"
+      label="Cargar datos desde Excel"
+    ></p-button>
     <p-button (onClick)="calcular()" class="pl-2" label="Analizar"></p-button>
   </div>
 </div>
@@ -33,7 +37,10 @@
         <div class="field col-6">
           <div class="p-inputgroup">
             <div class="p-float-label">
-              <p-inputNumber formControlName="altura" [useGrouping]="false"></p-inputNumber>
+              <p-inputNumber
+                formControlName="altura"
+                [useGrouping]="false"
+              ></p-inputNumber>
               <label>Altura</label>
             </div>
             <span class="p-inputgroup-addon">m</span>
@@ -45,7 +52,10 @@
         <div class="field col-6">
           <div class="p-inputgroup">
             <div class="p-float-label">
-              <p-inputNumber formControlName="longitud" [useGrouping]="false"></p-inputNumber>
+              <p-inputNumber
+                formControlName="longitud"
+                [useGrouping]="false"
+              ></p-inputNumber>
               <label>Longitud</label>
             </div>
             <span class="p-inputgroup-addon">m</span>
@@ -57,7 +67,10 @@
         <div class="field col-5">
           <div class="p-inputgroup">
             <div class="p-float-label">
-              <p-inputNumber formControlName="ancho" [useGrouping]="false"></p-inputNumber>
+              <p-inputNumber
+                formControlName="ancho"
+                [useGrouping]="false"
+              ></p-inputNumber>
               <label>Ancho</label>
             </div>
             <span class="p-inputgroup-addon">m</span>
@@ -69,7 +82,10 @@
         <div class="field col-7">
           <div class="p-inputgroup">
             <div class="p-float-label">
-              <p-inputNumber formControlName="areaRecoleccion" [useGrouping]="false"></p-inputNumber>
+              <p-inputNumber
+                formControlName="areaRecoleccion"
+                [useGrouping]="false"
+              ></p-inputNumber>
               <label>Área de recolección (opcional)</label>
             </div>
             <span class="p-inputgroup-addon">m</span>
@@ -82,9 +98,15 @@
         <div class="field col-12">
           <div class="flex-auto">
             <span class="p-float-label">
-              <p-dropdown class="w-full" formControlName="situacionRelativa"
-                [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Situación relativa de la estructura"
-                [options]="configService.situacionEstructura" optionLabel="name" optionValue="value"></p-dropdown>
+              <p-dropdown
+                class="w-full"
+                formControlName="situacionRelativa"
+                [style]="{ minWidth: '100%', maxWidth: '100%' }"
+                placeholder="Situación relativa de la estructura"
+                [options]="configService.situacionEstructura"
+                optionLabel="name"
+                optionValue="value"
+              ></p-dropdown>
               <label> Situación relativa de la estructura </label>
             </span>
           </div>
@@ -96,12 +118,18 @@
           <div class="flex-auto">
             <div class="p-inputgroup">
               <div class="p-float-label">
-                <p-inputNumber formControlName="densidadDescargasAtmosféricas" [useGrouping]="false"></p-inputNumber>
+                <p-inputNumber
+                  formControlName="densidadDescargasAtmosféricas"
+                  [useGrouping]="false"
+                ></p-inputNumber>
                 <label>Densidad de descargas atmosféricas</label>
               </div>
               <span class="p-inputgroup-addon">1/km<sup>2</sup>/año</span>
             </div>
-            <small class="p-error" *ngIf="validateField('densidadDescargasAtmosféricas')">
+            <small
+              class="p-error"
+              *ngIf="validateField('densidadDescargasAtmosféricas')"
+            >
               Campo invalido
             </small>
           </div>
@@ -113,10 +141,16 @@
         <div class="field col-12">
           <div class="flex-auto">
             <span class="p-float-label">
-              <p-dropdown class="w-full" formControlName="tipoSuperficie"
-                [style]="{ minWidth: '100%', maxWidth: '100%' }" [options]="configService.tipoSuperficie"
-                optionLabel="name" optionValue="value" placeholder="Tipo de superficie del terreno"
-                (onChange)="checkSuperficie($event)"></p-dropdown>
+              <p-dropdown
+                class="w-full"
+                formControlName="tipoSuperficie"
+                [style]="{ minWidth: '100%', maxWidth: '100%' }"
+                [options]="configService.tipoSuperficie"
+                optionLabel="name"
+                optionValue="value"
+                placeholder="Tipo de superficie del terreno"
+                (onChange)="checkSuperficie($event)"
+              ></p-dropdown>
               <label> Tipo de superficie del terreno </label>
             </span>
           </div>
@@ -124,11 +158,17 @@
             Campo invalido
           </small>
         </div>
-        <div class="field col-12" *ngIf="validateProteccion('tipoSuperficie') === -1">
+        <div
+          class="field col-12"
+          *ngIf="validateProteccion('tipoSuperficie') === -1"
+        >
           <div class="flex-auto">
             <div class="p-inputgroup">
               <div class="p-float-label">
-                <p-inputNumber formControlName="resistenciaContacto" [useGrouping]="false"></p-inputNumber>
+                <p-inputNumber
+                  formControlName="resistenciaContacto"
+                  [useGrouping]="false"
+                ></p-inputNumber>
                 <label>Resistencia de contacto</label>
               </div>
               <span class="p-inputgroup-addon">k&Omega;</span>
@@ -147,20 +187,32 @@
         <div class="flex flex-column gap-2">
           <div class="flex flex-row justify-content-between h-full gap-2">
             Avisos de peligro
-            <p-checkbox formControlName="avisosDeAdvertencia" [binary]="true"></p-checkbox>
+            <p-checkbox
+              formControlName="avisosDeAdvertencia"
+              [binary]="true"
+            ></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Aislamiento eléctrico de partes expuestas
-            <p-checkbox formControlName="aislamientoElectrico" [binary]="true"></p-checkbox>
+            <p-checkbox
+              formControlName="aislamientoElectrico"
+              [binary]="true"
+            ></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Equipotencialización efectiva del terreno
-            <p-checkbox formControlName="equipotencializacion" [binary]="true"></p-checkbox>
+            <p-checkbox
+              formControlName="equipotencializacion"
+              [binary]="true"
+            ></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Restricciones físicas o de uso de armadura metálica del edificio
             como conducto de bajada
-            <p-checkbox formControlName="restricciones" [binary]="true"></p-checkbox>
+            <p-checkbox
+              formControlName="restricciones"
+              [binary]="true"
+            ></p-checkbox>
           </div>
         </div>
       </p-panel>
@@ -168,31 +220,56 @@
     <div class="col-4">
       <div class="flex flex-column">
         <div class="flex flex-row align-items-center gap-2">
-          <p-panel class="w-full h-full gap-2" header="Protección con sistema de protección contra rayos">
-            <div class="flex flex-row justify-content-between flex-wrap align-items-center h-full gap-2">
+          <p-panel
+            class="w-full h-full gap-2"
+            header="Protección con sistema de protección contra rayos"
+          >
+            <div
+              class="flex flex-row justify-content-between flex-wrap align-items-center h-full gap-2"
+            >
               <div class="flex flex-column w-full py-2">
                 <span class="p-float-label">
-                  <p-dropdown class="w-full" formControlName="proteccionEstructura"
-                    [options]="configService.proteccionEstructura" optionLabel="name" optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }" (onChange)="checkValidation($event)"
-                    placeholder="Nivel de protección"></p-dropdown>
+                  <p-dropdown
+                    class="w-full"
+                    formControlName="proteccionEstructura"
+                    [options]="configService.proteccionEstructura"
+                    optionLabel="name"
+                    optionValue="value"
+                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
+                    (onChange)="checkValidation($event)"
+                    placeholder="Nivel de protección"
+                  ></p-dropdown>
                   <label> Nivel de protección </label>
                 </span>
               </div>
             </div>
-            <small class="p-error" *ngIf="validateField('proteccionEstructura')">
+            <small
+              class="p-error"
+              *ngIf="validateField('proteccionEstructura')"
+            >
               Campo invalido
             </small>
-            <div class="flex flex-row justify-content-start w-full gap-2 pt-4"
-              *ngIf="validateProteccion('proteccionEstructura') === -1">
+            <div
+              class="flex flex-row justify-content-start w-full gap-2 pt-4"
+              *ngIf="validateProteccion('proteccionEstructura') === -1"
+            >
               <div class="flex flex-column w-full py-2">
                 <span class="p-float-label">
-                  <p-dropdown class="w-full" formControlName="proteccionAEstructura"
-                    [options]="configService.nivelProteccion" optionLabel="name" optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Nivel de protección"></p-dropdown>
+                  <p-dropdown
+                    class="w-full"
+                    formControlName="proteccionAEstructura"
+                    [options]="configService.nivelProteccion"
+                    optionLabel="name"
+                    optionValue="value"
+                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
+                    placeholder="Nivel de protección"
+                  ></p-dropdown>
                   <label> Nivel de protección </label>
                 </span>
-                <small class="p-error" *ngIf="validateField('proteccionAEstructura')">
+                <small
+                  class="p-error"
+                  *ngIf="validateField('proteccionAEstructura')"
+                >
                   Campo invalido
                 </small>
               </div>
@@ -230,18 +307,18 @@
         <td>
           <span>
             {{
-            configService.getLabel(
-            linea.caracteristicasLinea,
-            "catecteristicaLinea"
-            )
+              configService.getLabel(
+                linea.caracteristicasLinea,
+                "catecteristicaLinea"
+              )
             }}
           </span>
           <span *ngIf="linea.caracteristicasLinea === 2">
             {{
-            configService.getLabel(
-            linea.resistenciaBlindaje,
-            "resistenciaBlindaje"
-            )
+              configService.getLabel(
+                linea.resistenciaBlindaje,
+                "resistenciaBlindaje"
+              )
             }}
           </span>
         </td>
@@ -253,7 +330,7 @@
         </td>
         <td>
           {{
-          configService.getLabel(linea.proteccionDps, "nivelProteccionRayo")
+            configService.getLabel(linea.proteccionDps, "nivelProteccionRayo")
           }}
         </td>
         <td>
@@ -261,12 +338,14 @@
         </td>
         <td>
           <ul>
-            <li *ngIf="
+            <li
+              *ngIf="
                 linea.medidasDeProteccion ||
                 (!linea.avisos &&
                   !linea.aislamientoElectrico &&
                   !linea.restriccionFisica)
-              ">
+              "
+            >
               Sin medidas de protección
             </li>
             <li *ngIf="linea.avisos">Avisos</li>
@@ -287,12 +366,19 @@
       </tr>
     </ng-template>
   </p-table>
-  <div class="flex justify-content-center w-full h-2 border-top-1 border-bottom-1 border-bluegray-100"
-    *ngIf="!lineasForm.controls.length">
+  <div
+    class="flex justify-content-center w-full h-2 border-top-1 border-bottom-1 border-bluegray-100"
+    *ngIf="!lineasForm.controls.length"
+  >
     <span class="p-2"> No hay líneas agregadas </span>
   </div>
   <div class="pt-3">
-    <p-button label="Agregar línea" icon="pi pi-plus" styleClass="p-button-outlined" (click)="addLine()"></p-button>
+    <p-button
+      label="Agregar línea"
+      icon="pi pi-plus"
+      styleClass="p-button-outlined"
+      (click)="addLine()"
+    ></p-button>
   </div>
 </ng-template>
 
@@ -306,12 +392,18 @@
               Extintores, instalaciones fijas de extinción,manuales,
               instalaciones manuales de alarma, tomas de agua, compartimentos
               aprueba de agua, vías de evacuación.
-              <p-checkbox formControlName="medidasIncendioP" [binary]="true"></p-checkbox>
+              <p-checkbox
+                formControlName="medidasIncendioP"
+                [binary]="true"
+              ></p-checkbox>
             </div>
             <div class="flex flex-row justify-content-between h-full gap-2">
               Instalaciones fijas de extención automáticas, instalaciones
               automáticas de alarma
-              <p-checkbox formControlName="medidasIncendioS" [binary]="true"></p-checkbox>
+              <p-checkbox
+                formControlName="medidasIncendioS"
+                [binary]="true"
+              ></p-checkbox>
             </div>
           </div>
         </p-panel>
@@ -323,7 +415,10 @@
     <div class="col-3">
       <div class="flex-auto pb-4">
         <div class="p-float-label">
-          <p-inputNumber formControlName="nPersonas" [useGrouping]="false"></p-inputNumber>
+          <p-inputNumber
+            formControlName="nPersonas"
+            [useGrouping]="false"
+          ></p-inputNumber>
           <label>Número de personas en la zona</label>
         </div>
         <small class="p-error" *ngIf="validateField('nPersonas')">
@@ -332,7 +427,11 @@
       </div>
       <div class="flex-auto pb-4">
         <div class="p-float-label">
-          <p-inputNumber class="w-full" formControlName="nPersonasEstructura" [useGrouping]="false"></p-inputNumber>
+          <p-inputNumber
+            class="w-full"
+            formControlName="nPersonasEstructura"
+            [useGrouping]="false"
+          ></p-inputNumber>
           <label>Número de personas en la estructura</label>
         </div>
         <small class="p-error" *ngIf="validateField('nPersonasEstructura')">
@@ -341,7 +440,10 @@
       </div>
       <div class="flex-auto">
         <div class="p-float-label">
-          <p-inputNumber formControlName="nHoraPersonas" [useGrouping]="false"></p-inputNumber>
+          <p-inputNumber
+            formControlName="nHoraPersonas"
+            [useGrouping]="false"
+          ></p-inputNumber>
           <label> Número anual de horas que hay personas en la zona </label>
         </div>
         <small class="p-error" *ngIf="validateField('nHoraPersonas')">
@@ -353,9 +455,16 @@
       <div class="field pb-2">
         <div class="flex-auto">
           <span class="p-float-label">
-            <p-dropdown class="w-full" formControlName="riesgoFuego" [style]="{ minWidth: '100%', maxWidth: '100%' }"
-              [options]="configService.riesgoFuego" optionLabel="name" optionValue="value"
-              placeholder="Riesgo de incendio" (onChange)="checkSuperficie($event)"></p-dropdown>
+            <p-dropdown
+              class="w-full"
+              formControlName="riesgoFuego"
+              [style]="{ minWidth: '100%', maxWidth: '100%' }"
+              [options]="configService.riesgoFuego"
+              optionLabel="name"
+              optionValue="value"
+              placeholder="Riesgo de incendio"
+              (onChange)="checkSuperficie($event)"
+            ></p-dropdown>
             <label> Riesgo de incendio </label>
           </span>
         </div>
@@ -366,10 +475,16 @@
       <div class="field">
         <div class="flex-auto">
           <span class="p-float-label">
-            <p-dropdown class="w-full" formControlName="riesgoExplosion"
-              [style]="{ minWidth: '100%', maxWidth: '100%' }" [options]="configService.riesgoExplosion"
-              optionLabel="name" optionValue="value" placeholder="Riesgo de explosión"
-              (onChange)="checkSuperficie($event)"></p-dropdown>
+            <p-dropdown
+              class="w-full"
+              formControlName="riesgoExplosion"
+              [style]="{ minWidth: '100%', maxWidth: '100%' }"
+              [options]="configService.riesgoExplosion"
+              optionLabel="name"
+              optionValue="value"
+              placeholder="Riesgo de explosión"
+              (onChange)="checkSuperficie($event)"
+            ></p-dropdown>
             <label> Riesgo de explosión </label>
           </span>
         </div>
@@ -381,17 +496,31 @@
   </div>
 </ng-template>
 
-<p-dialog header="Editar línea" [(visible)]="visible" [style]="{ width: '80vw' }" (onHide)="cerrar()">
+<p-dialog
+  header="Editar línea"
+  [(visible)]="visible"
+  [style]="{ width: '80vw' }"
+  (onHide)="cerrar()"
+>
   <div [formGroup]="temporalFormGroup" class="grid">
     <div class="col-3">
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Tipo de línea"
-            [options]="configService.factorTipoLinea" optionLabel="name" optionValue="value"
-            formControlName="tipoLinea"></p-dropdown>
+          <p-dropdown
+            appendTo="body"
+            [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            placeholder="Tipo de línea"
+            [options]="configService.factorTipoLinea"
+            optionLabel="name"
+            optionValue="value"
+            formControlName="tipoLinea"
+          ></p-dropdown>
           <label> Tipo de línea </label>
         </span>
-        <small class="p-error" *ngIf="validateField('tipoLinea', temporalFormGroup)">
+        <small
+          class="p-error"
+          *ngIf="validateField('tipoLinea', temporalFormGroup)"
+        >
           Campo invalido
         </small>
       </div>
@@ -399,35 +528,60 @@
         <div class="p-float-label">
           <div class="p-inputgroup">
             <div class="p-float-label">
-              <p-inputNumber formControlName="longitud" [useGrouping]="false"></p-inputNumber>
+              <p-inputNumber
+                formControlName="longitud"
+                [useGrouping]="false"
+              ></p-inputNumber>
               <label>Longitud</label>
             </div>
             <span class="p-inputgroup-addon">m</span>
           </div>
-          <small class="p-error" *ngIf="validateField('longitud', temporalFormGroup)">
+          <small
+            class="p-error"
+            *ngIf="validateField('longitud', temporalFormGroup)"
+          >
             Campo invalido
           </small>
         </div>
       </div>
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Apantallamiento"
-            [options]="configService.catecteristicaLinea" optionLabel="name" optionValue="value"
-            formControlName="caracteristicasLinea" (onChange)="checkValidationTemporalArray($event)"></p-dropdown>
+          <p-dropdown
+            appendTo="body"
+            [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            placeholder="Apantallamiento"
+            [options]="configService.catecteristicaLinea"
+            optionLabel="name"
+            optionValue="value"
+            formControlName="caracteristicasLinea"
+            (onChange)="checkValidationTemporalArray($event)"
+          ></p-dropdown>
           <label> Apantallamiento </label>
         </span>
-        <small class="p-error" *ngIf="validateField('caracteristicasLinea', temporalFormGroup)">
+        <small
+          class="p-error"
+          *ngIf="validateField('caracteristicasLinea', temporalFormGroup)"
+        >
           Campo invalido
         </small>
       </div>
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Tipo de instalación"
-            [options]="configService.tipoAcometida" optionLabel="name" optionValue="value"
-            formControlName="fInstalacion"></p-dropdown>
+          <p-dropdown
+            appendTo="body"
+            [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            placeholder="Tipo de instalación"
+            [options]="configService.tipoAcometida"
+            optionLabel="name"
+            optionValue="value"
+            formControlName="fInstalacion"
+          ></p-dropdown>
           <label> Tipo de instalación </label>
         </span>
-        <small class="p-error" *ngIf="validateField('fInstalacion', temporalFormGroup)">
+        <small
+          class="p-error"
+          *ngIf="validateField('fInstalacion', temporalFormGroup)"
+        >
           Campo invalido
         </small>
       </div>
@@ -435,45 +589,84 @@
     <div class="col-3">
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" formControlName="proteccionDps" [options]="configService.nivelProteccionRayo"
-            optionLabel="name" optionValue="value" [style]="{ minWidth: '100%', maxWidth: '100%' }"
-            placeholder="Nivel de protección DPS"></p-dropdown>
+          <p-dropdown
+            appendTo="body"
+            formControlName="proteccionDps"
+            [options]="configService.nivelProteccionRayo"
+            optionLabel="name"
+            optionValue="value"
+            [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            placeholder="Nivel de protección DPS"
+          ></p-dropdown>
           <label> Nivel de protección DPS </label>
         </span>
-        <small class="p-error" *ngIf="validateField('proteccionDps', temporalFormGroup)">
+        <small
+          class="p-error"
+          *ngIf="validateField('proteccionDps', temporalFormGroup)"
+        >
           Campo invalido
         </small>
       </div>
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" formControlName="tensionMinima" [options]="configService.tensionMinima"
-            optionLabel="name" optionValue="value" [style]="{ minWidth: '100%', maxWidth: '100%' }"
-            placeholder="Tensión soportada Uw [kV]"></p-dropdown>
+          <p-dropdown
+            appendTo="body"
+            formControlName="tensionMinima"
+            [options]="configService.tensionMinima"
+            optionLabel="name"
+            optionValue="value"
+            [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            placeholder="Tensión soportada Uw [kV]"
+          ></p-dropdown>
           <label> Tensión soportada Uw [kV] </label>
         </span>
-        <small class="p-error" *ngIf="validateField('proteccionDps', temporalFormGroup)">
+        <small
+          class="p-error"
+          *ngIf="validateField('proteccionDps', temporalFormGroup)"
+        >
           Campo invalido
         </small>
       </div>
       <div class="pt-4">
         <span class="p-float-label">
-          <p-dropdown appendTo="body" [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Tipo de ambiente"
-            [options]="configService.tipoAmbiente" optionLabel="name" optionValue="value"
-            formControlName="fMedio"></p-dropdown>
+          <p-dropdown
+            appendTo="body"
+            [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            placeholder="Tipo de ambiente"
+            [options]="configService.tipoAmbiente"
+            optionLabel="name"
+            optionValue="value"
+            formControlName="fMedio"
+          ></p-dropdown>
           <label> Tipo de ambiente </label>
         </span>
-        <small class="p-error" *ngIf="validateField('fMedio', temporalFormGroup)">
+        <small
+          class="p-error"
+          *ngIf="validateField('fMedio', temporalFormGroup)"
+        >
           Campo invalido
         </small>
       </div>
-      <div class="pt-4" *ngIf="getTemporalArrayValue('caracteristicasLinea') === 2">
+      <div
+        class="pt-4"
+        *ngIf="getTemporalArrayValue('caracteristicasLinea') === 2"
+      >
         <span class="p-float-label">
-          <p-dropdown appendTo="body" formControlName="resistenciaBlindaje"
-            [options]="configService.resistenciaBlindaje" optionLabel="name" optionValue="value"
-            [style]="{ minWidth: '100%', maxWidth: '100%' }" placeholder="Resistencia del blindaje"></p-dropdown>
+          <p-dropdown
+            appendTo="body"
+            formControlName="resistenciaBlindaje"
+            [options]="configService.resistenciaBlindaje"
+            optionLabel="name"
+            optionValue="value"
+            [style]="{ minWidth: '100%', maxWidth: '100%' }"
+            placeholder="Resistencia del blindaje"
+          ></p-dropdown>
           <label> Resistencia del blindaje </label>
         </span>
-        <small class="p-error" *ngIf="validateField('resistenciaBlindaje', temporalFormGroup)">
+        <small
+          class="p-error"
+          *ngIf="validateField('resistenciaBlindaje', temporalFormGroup)"
+        >
           Campo invalido
         </small>
       </div>
@@ -481,14 +674,26 @@
     <div class="col-3">
       <div class="flex flex-column">
         <div class="flex flex-row align-items-center gap-2">
-          <p-panel class="w-full h-full" header="Protección con apantallamiento externo">
-            <div class="flex flex-row justify-content-between flex-wrap align-items-center h-full gap-2">
+          <p-panel
+            class="w-full h-full"
+            header="Protección con apantallamiento externo"
+          >
+            <div
+              class="flex flex-row justify-content-between flex-wrap align-items-center h-full gap-2"
+            >
               <div class="flex flex-column w-full pt-2">
                 <span class="p-float-label">
-                  <p-dropdown class="w-full" appendTo="body" formControlName="cableadoMalla"
-                    [options]="configService.cableadoMalla" optionLabel="name" optionValue="value"
-                    [style]="{ minWidth: '100%', maxWidth: '100%' }" (onChange)="checkValidationCableado($event)"
-                    placeholder="Nivel de protección"></p-dropdown>
+                  <p-dropdown
+                    class="w-full"
+                    appendTo="body"
+                    formControlName="cableadoMalla"
+                    [options]="configService.cableadoMalla"
+                    optionLabel="name"
+                    optionValue="value"
+                    [style]="{ minWidth: '100%', maxWidth: '100%' }"
+                    (onChange)="checkValidationCableado($event)"
+                    placeholder="Nivel de protección"
+                  ></p-dropdown>
                   <label> Nivel de protección </label>
                 </span>
               </div>
@@ -496,13 +701,19 @@
             <small class="p-error" *ngIf="validateField('cableadoMalla')">
               Campo invalido
             </small>
-            <div class="flex flex-row justify-content-start w-full gap-2 pt-3" *ngIf="
+            <div
+              class="flex flex-row justify-content-start w-full gap-2 pt-3"
+              *ngIf="
                 [0.01, 0.0001].includes(validateProteccion('cableadoMalla'))
-              ">
+              "
+            >
               <div class="flex flex-column w-full py-2">
                 <div class="p-inputgroup">
                   <div class="p-float-label">
-                    <p-inputNumber formControlName="anchoCuadricula" [useGrouping]="false"></p-inputNumber>
+                    <p-inputNumber
+                      formControlName="anchoCuadricula"
+                      [useGrouping]="false"
+                    ></p-inputNumber>
                     <label> Ancho cuadricula escudo especial </label>
                   </div>
                   <span class="p-inputgroup-addon">m</span>
@@ -512,12 +723,18 @@
                 </small>
               </div>
             </div>
-            <div class="flex flex-row justify-content-start w-full gap-2 pt-3" *ngIf="
+            <div
+              class="flex flex-row justify-content-start w-full gap-2 pt-3"
+              *ngIf="
                 [0.01, 0.0001].includes(validateProteccion('cableadoMalla'))
-              ">
+              "
+            >
               <div class="p-inputgroup">
                 <div class="p-float-label">
-                  <p-inputNumber formControlName="tensionNominal" [useGrouping]="false"></p-inputNumber>
+                  <p-inputNumber
+                    formControlName="tensionNominal"
+                    [useGrouping]="false"
+                  ></p-inputNumber>
                   <label>
                     Tensión minima soportable al impulso tipo rayo
                   </label>
@@ -541,30 +758,45 @@
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Aislamiento eléctrico de partes expuestas
-            <p-checkbox formControlName="aislamientoElectrico" [binary]="true"></p-checkbox>
+            <p-checkbox
+              formControlName="aislamientoElectrico"
+              [binary]="true"
+            ></p-checkbox>
           </div>
           <div class="flex flex-row justify-content-between h-full gap-2">
             Restricciones físicas
-            <p-checkbox formControlName="restriccionFisica" [binary]="true"></p-checkbox>
+            <p-checkbox
+              formControlName="restriccionFisica"
+              [binary]="true"
+            ></p-checkbox>
           </div>
         </div>
       </p-panel>
     </div>
   </div>
-  <p-button label="Guardar" [draggable]="false" class="flex justify-content-end pt-4" styleClass="p-button-outlined"
-    (onClick)="guardarLinea()"></p-button>
+  <p-button
+    label="Guardar"
+    [draggable]="false"
+    class="flex justify-content-end pt-4"
+    styleClass="p-button-outlined"
+    (onClick)="guardarLinea()"
+  ></p-button>
 </p-dialog>
 
-<p-dialog header="Resultados" [(visible)]="visibleResult" [style]="{ width: '60vw' }" (onHide)="cleanResults()">
+<p-dialog
+  header="Resultados"
+  [(visible)]="visibleResult"
+  [style]="{ width: '60vw' }"
+  (onHide)="cleanResults()"
+>
   <div class="flex justify-content-start flex-column">
-
     <div class="flex flex-row w-full">
       <div class="flex w-6 flex-column">
-
         <span>
-          Valores de las componentes relevantes para el riesgo R1 (x10<sup>-5</sup>)
+          Valores de las componentes relevantes para el riesgo R1
+          (x10<sup>-5</sup>)
         </span>
-        <div class=" flex w-full table_result_container">
+        <div class="flex w-full table_result_container">
           <p-table [value]="[selectedResult]" class="pt-2">
             <ng-template pTemplate="header">
               <tr>
@@ -576,120 +808,119 @@
             </ng-template>
             <ng-template pTemplate="body" let-resultado>
               <tr>
-                <td rowspan="2">
-                  D1 - Lesiones
+                <td rowspan="2">D1 - Lesiones</td>
+                <td>R<sub>a</sub></td>
+                <td>
+                  {{ resultado.ra ?? 0 | number : "1.0-3" }}
                 </td>
                 <td>
-                  R<sub>a</sub>
-                </td>
-                <td>
-                  {{
-                  resultado.ra ?? 0 | number: '1.0-3'
-                  }}
-                </td>
-                <td>
-                  {{
-                  resultado.raContribucion ?? 0 | number: '1.0-2'
-                  }}
+                  {{ resultado.raContribucion ?? 0 | number : "1.0-2" }}
                 </td>
               </tr>
               <tr>
+                <td>R<sub>u</sub></td>
                 <td>
-                  R<sub>u</sub>
+                  {{ resultado.ru ?? 0 | number : "1.0-3" }}
                 </td>
                 <td>
-                  {{
-                  resultado.ru ?? 0 | number: '1.0-3'
-                  }}
-                </td>
-                <td>
-                  {{
-                  resultado.ruContribucion ?? 0 | number: '1.0-2'
-                  }}
+                  {{ resultado.ruContribucion ?? 0 | number : "1.0-2" }}
                 </td>
               </tr>
               <tr>
-                <td rowspan="2">
-                  D2 - Daños físicos
+                <td rowspan="2">D2 - Daños físicos</td>
+                <td>R<sub>B</sub></td>
+                <td>
+                  {{ resultado.rb ?? 0 | number : "1.0-3" }}
                 </td>
                 <td>
-                  R<sub>B</sub>
-                </td>
-                <td>
-                  {{
-                  resultado.rb ?? 0 | number: '1.0-3'
-                  }}
-                </td>
-                <td>
-                  {{
-                  resultado.rbContribucion ?? 0 | number: '1.0-2'
-                  }}
+                  {{ resultado.rbContribucion ?? 0 | number : "1.0-2" }}
                 </td>
               </tr>
               <tr>
+                <td>R<sub>v</sub></td>
                 <td>
-                  R<sub>v</sub>
+                  {{ resultado.rv ?? 0 | number : "1.0-3" }}
                 </td>
                 <td>
-                  {{
-                  resultado.rv ?? 0 | number: '1.0-3'
-                  }}
-                </td>
-                <td>
-                  {{
-                  resultado.rvContribucion ?? 0 | number: '1.0-2'
-                  }}
+                  {{ resultado.rvContribucion ?? 0 | number : "1.0-2" }}
                 </td>
               </tr>
               <tr>
-                <td colspan="2">
-                  Total
-                </td>
+                <td colspan="2">Total</td>
                 <td>
-                  {{
-                  resultado.r1 ?? 0 | number: '1.0-3'
-                  }}
+                  {{ resultado.r1 ?? 0 | number : "1.0-3" }}
                 </td>
-                <td>
-                  100
-                </td>
+                <td>100</td>
               </tr>
             </ng-template>
 
             <ng-template pTemplate="summary">
-              <ng-container *ngIf="verificarResultado(); then proteccionLabel; else noProteccionLabel"></ng-container>
+              <ng-container
+                *ngIf="
+                  verificarResultado();
+                  then proteccionLabel;
+                  else noProteccionLabel
+                "
+              ></ng-container>
             </ng-template>
           </p-table>
         </div>
       </div>
       <div class="flex w-6 flex-column px-5">
-        <h2 class="w-full text-center pb-4">
-          Sugerencias
-        </h2>
+        <h2 class="w-full text-center pb-4">Sugerencias</h2>
         <div class="px-5">
           <ul *ngIf="selectedResult?.sugerencias?.length">
             <li *ngIf="selectedResult?.sugerencias?.includes('DPS_LINEA')">
               Instalación de un DPS en las líneas:
               <ul class="pl-5">
-                <li *ngFor="let item of selectedResult.value.lineas; let i = index">
-                  Linea {{ i+1 + ' - Clase ' + configService.getLabel(item.proteccionDps, "nivelProteccionRayo") }}
+                <li
+                  *ngFor="
+                    let item of selectedResult.value.lineas;
+                    let i = index
+                  "
+                >
+                  Linea
+                  {{
+                    i +
+                      1 +
+                      " - Clase " +
+                      configService.getLabel(
+                        item.proteccionDps,
+                        "nivelProteccionRayo"
+                      )
+                  }}
                 </li>
               </ul>
             </li>
             <li *ngIf="selectedResult?.sugerencias?.includes('SPCR')">
-              Instalación de un SPCR de clase {{ configService.getLabel(selectedResult.value.proteccionAEstructura,
-              "nivelProteccion") }}
+              Instalación de un SPCR de clase
+              {{
+                configService.getLabel(
+                  selectedResult.value.proteccionAEstructura,
+                  "nivelProteccion"
+                )
+              }}
             </li>
           </ul>
         </div>
       </div>
     </div>
 
-    <p-paginator *ngIf="resultados.length > 1" class="w-full" [first]="first ?? 0" [rows]="rows ?? 10"
-      (onPageChange)="cambiarResultado($event)" [totalRecords]="totalRecords">
+    <p-paginator
+      *ngIf="resultados.length > 1"
+      class="w-full"
+      [first]="first ?? 0"
+      [rows]="rows ?? 10"
+      (onPageChange)="cambiarResultado($event)"
+      [totalRecords]="120"
+    >
     </p-paginator>
     <div class="flex justify-content-end">
-      <p-button styleClass="p-button-outlined" label="Mostrar sugerencias" (onClick)="cargarSolucion()"></p-button>
+      <p-button
+        styleClass="p-button-outlined"
+        label="Mostrar sugerencias"
+        (onClick)="cargarSolucion()"
+      ></p-button>
     </div>
   </div>
 </p-dialog>
@@ -706,12 +937,27 @@
   </span>
 </ng-template>
 
-<p-dialog header="Cargar archivo excel" [(visible)]="showFileModal" [style]="{ width: '30vw' }" (onHide)="clearFile()">
+<p-dialog
+  header="Cargar archivo excel"
+  [(visible)]="showFileModal"
+  [style]="{ width: '30vw' }"
+  (onHide)="clearFile()"
+>
   <div class="flex w-full justify-content-around">
-    <p-fileUpload #files chooseIcon="pi pi-upload" mode="basic" accept=".xlsx" (onSelect)="onFileChange($event)"
-      chooseLabel="Cargar archivo">
+    <p-fileUpload
+      #files
+      chooseIcon="pi pi-upload"
+      mode="basic"
+      accept=".xlsx"
+      (onSelect)="onFileChange($event)"
+      chooseLabel="Cargar archivo"
+    >
     </p-fileUpload>
-    <p-button styleClass="p-button-outlined" label="Descargar formato del archivo" icon="pi pi-download"
-      (onClick)="downloaExcel()"></p-button>
+    <p-button
+      styleClass="p-button-outlined"
+      label="Descargar formato del archivo"
+      icon="pi pi-download"
+      (onClick)="downloaExcel()"
+    ></p-button>
   </div>
 </p-dialog>
